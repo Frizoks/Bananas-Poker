@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane minHeight="500.0" minWidth="740.0" prefHeight="500.0" prefWidth="740.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projet.bananaspoker.ihm.stage.StageAccueil">
+   <children>
+      <ImageView fitHeight="616.0" fitWidth="928.0" layoutX="-183.0" layoutY="-116.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/fondAccueil.jpg" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="163.0" fitWidth="138.0" layoutX="107.0" layoutY="87.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/singeAccueil.png" />
+         </image>
+      </ImageView>
+      <Button layoutX="93.0" layoutY="349.0" mnemonicParsing="false" onAction="#onBtnCreer" prefWidth="150.0" text="Créer un salon" />
+      <Button layoutX="93.0" layoutY="309.0" mnemonicParsing="false" onAction="#onBtnRejoindre" prefWidth="150.0" text="Rejoindre une partie" />
+   </children>
+</AnchorPane>

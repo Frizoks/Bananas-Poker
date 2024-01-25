@@ -3,6 +3,11 @@ package projet.bananaspoker.metier;
 
 public class Carte {
 
+	public final static char COEUR   = '♥';
+	public final static char CARREAU = '♦';
+	public final static char TREFLE  = '♣';
+	public final static char PIQUE   = '♠';
+
 	private char coul;
 	private char valeur;
 	private char signe;

@@ -16,42 +16,42 @@ import java.util.ResourceBundle;
 
 public class SatgeCreerSalon extends Stage implements Initializable
 {
-    @FXML private ChoiceBox<Integer> spnNbJoueur;
-    @FXML private PasswordField txtMdp;
-    @FXML private TextField txtNomSalon;
-    @FXML private Spinner<Integer> spnNbJeton;
+	@FXML private ChoiceBox<Integer> spnNbJoueur;
+	@FXML private PasswordField txtMdp;
+	@FXML private TextField txtNomSalon;
+	@FXML private Spinner<Integer> spnNbJeton;
 
-    public SatgeCreerSalon() // fxml -> "creerSalon"
-    {
-        this.setTitle("Bananas' Poker");
-        this.setMinWidth(700);
-        this.setMinHeight(420);
-        this.setResizable(false);
-    }
+	public SatgeCreerSalon() // fxml -> "creerSalon"
+	{
+		this.setTitle("Bananas' Poker");
+		this.setMinWidth(700);
+		this.setMinHeight(420);
+		this.setResizable(false);
+	}
 
-    @Override
-    public void initialize(URL location, ResourceBundle resources) {
-        this.setWidth( this.getMinWidth() );
-        this.setHeight( this.getMinHeight() );
+	@Override
+	public void initialize(URL location, ResourceBundle resources) {
+		this.setWidth( this.getMinWidth() );
+		this.setHeight( this.getMinHeight() );
 
-        this.spnNbJoueur.setItems(FXCollections.observableList(Arrays.asList(2,4,6,8)));
-        this.spnNbJoueur.setValue(this.spnNbJoueur.getItems().get(0));
+		this.spnNbJoueur.setItems(FXCollections.observableList(Arrays.asList(2,4,6,8)));
+		this.spnNbJoueur.setValue(this.spnNbJoueur.getItems().get(0));
 
-        int initialValue = 10000;
-        int min = 10000;
-        int max = Integer.MAX_VALUE;
-        int step = 5000;
+		int initialValue = 10000;
+		int min = 10000;
+		int max = Integer.MAX_VALUE;
+		int step = 5000;
 
-        SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(min, max, initialValue, step);
-        this.spnNbJeton.setValueFactory(valueFactory);
-    }
+		SpinnerValueFactory<Integer> valueFactory = new SpinnerValueFactory.IntegerSpinnerValueFactory(min, max, initialValue, step);
+		this.spnNbJeton.setValueFactory(valueFactory);
+	}
 
-    public void onBtnCreer()
-    {
-    }
+	public void onBtnCreer()
+	{
+	}
 
-    public void onBtnAnnuler(ActionEvent actionEvent)
-    {
-        this.close();
-    }
+	public void onBtnAnnuler(ActionEvent actionEvent)
+	{
+		this.close();
+	}
 }

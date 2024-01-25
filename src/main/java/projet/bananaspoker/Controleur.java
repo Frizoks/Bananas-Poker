@@ -5,8 +5,8 @@ import projet.bananaspoker.ihm.PokerApplication;
 
 public class Controleur
 {
-    public static void main(String[] args)
-    {
-        Application.launch(PokerApplication.class);
-    }
+	public static void main(String[] args)
+	{
+		Application.launch(PokerApplication.class);
+	}
 }

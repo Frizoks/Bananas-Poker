@@ -1,7 +1,6 @@
 package projet.bananaspoker.metier;
 
 public class Jeton {
-
     private int valeur;
 
     public Jeton(int val) {
@@ -14,10 +13,6 @@ public class Jeton {
 
     public void setValeur(int valeur) {
         this.valeur = valeur;
-    }
-
-    public int[][] getJetonGlouton() {
-
     }
 
     public boolean equals(Object object) {

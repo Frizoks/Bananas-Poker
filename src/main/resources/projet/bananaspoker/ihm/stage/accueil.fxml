@@ -11,7 +11,7 @@
             <Image url="@../images/fondAccueil.jpg" />
          </image>
       </ImageView>
-      <ImageView fitHeight="163.0" fitWidth="138.0" layoutX="107.0" layoutY="87.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="263.0" fitWidth="309.0" layoutX="81.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/singeAccueil.png" />
          </image>

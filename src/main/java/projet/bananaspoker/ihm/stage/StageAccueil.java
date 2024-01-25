@@ -14,7 +14,7 @@ public class StageAccueil extends Stage implements Initializable
     public StageAccueil() // fxml -> "accueil"
     {
         this.setTitle("Bananas' Poker");
-        this.setMinWidth(740);
+        this.setMinWidth(700);
         this.setMinHeight(500);
         this.setResizable(false);
     }
@@ -27,7 +27,8 @@ public class StageAccueil extends Stage implements Initializable
 
     public void onBtnCreer()
     {
-        PopUp.information("Creer un salon",null,"Tkt mon grand");
+        Stage stage = Gestionnaire.creer("creerSalon",this);
+        if ( stage != null ) stage.show();
     }
 
     public void onBtnRejoindre()

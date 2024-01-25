@@ -1,8 +1,6 @@
 package projet.bananaspoker.ihm.stage;
 
-import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
-import javafx.stage.Popup;
 import javafx.stage.Stage;
 import projet.bananaspoker.ihm.PopUp;
 

@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import projet.bananaspoker.metier.Salle;
 
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -37,9 +38,11 @@ public class SatgeCreerSalon extends Stage implements Initializable
 
     public void onBtnCreer()
     {
+        Salle salle = new Salle((int)(Math.random()*45000+1030),spnNbJoueur.getValue(), txtMdp.getText().isEmpty() ?null:txtMdp.getText());
+        salle.start();
     }
 
-    public void onBtnAnnuler(ActionEvent actionEvent)
+    public void onBtnAnnuler()
     {
         this.close();
     }

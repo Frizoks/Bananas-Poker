@@ -5,6 +5,8 @@ import java.util.List;
 
 public class Table {
 
+    private static int nbManches = 0;
+    private Joueur premierJoueur = null;
     private List<Carte>  pioche;
     private List<Carte>  jeuTable;
 
@@ -13,16 +15,29 @@ public class Table {
     private int nbTours;
 
 
-    public Table() {
+    public Table(/*ArrayList<Joueur> joueurs*/) {
         this.pioche   = Carte.genererJeu();
         this.jeuTable = new ArrayList<Carte>();
 
-        this.joueurs  = new ArrayList<Joueur>();
+        this.joueurs  = joueurs;
 
         this.nbTours  = 0;
+        Table.nbManches++;
     }
 
+    public void jouer() {
+        if(nbManches == 1) {this.premierJoueur = this.joueurs.get(0);}
+        else {this.premierJoueur = this.getJoueurSuivant(this.premierJoueur);}
 
+        this.joueurs.get(this.joueurs.indexOf(premierJoueur)).enleverJetons(this.blinde);
+        if(this.joueurs.indexOf(premierJoueur) < this.joueurs.size()) {this.joueurs.get(this.joueurs.indexOf(premierJoueur) + 1).enleverJetons(this.blinde);}
+        else {this.joueurs.get(0).enleverJetons(this.blinde * 2);}
+    }
+
+    public Joueur getJoueurSuivant(Joueur joueur) {
+        if(this.joueurs.get(this.joueurs.size() - 1) == joueur) {return this.joueurs.get(0);}
+        return this.joueurs.get(this.joueurs.indexOf(joueur) + 1);
+    }
 
 
 

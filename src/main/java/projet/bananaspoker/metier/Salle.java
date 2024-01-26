@@ -13,53 +13,58 @@ public class Salle {
     private final int port;
     private final int numberOfPlayers;
     private final String password;
-    private final ArrayList<String> lstJoueur;
+    private final ArrayList<GerantDeJoueur> lstConnections;
 
     public Salle(int port, int numberOfPlayers, String password) {
         this.port = port;
         this.numberOfPlayers = numberOfPlayers;
         this.password = password;
-        this.lstJoueur = new ArrayList<>();
+        this.lstConnections = new ArrayList<>();
     }
 
     public void start() {
         try (ServerSocket serverSocket = new ServerSocket(port)) {
             System.out.println("Server is running on port " + port);
 
-            while (lstJoueur.size() < numberOfPlayers) {
+            while (lstConnections.size() < numberOfPlayers) {
                 Socket clientSocket = serverSocket.accept();
-                handleClientConnection(clientSocket);
+                GerantDeJoueur gdj = new GerantDeJoueur(clientSocket,this);
+                if (gdj.estAccepte()) {
+                    connection(gdj);
+                    Thread tgdc = new Thread(gdj);
+                    tgdc.start();
+                }
+                else {
+                    gdj.getOut().println("Mot de passe incorecte, connection refusé");
+                }
             }
 
             System.out.println("All lstJoueur connected. Server is closing.");
         } catch (IOException e) {
             e.printStackTrace();
         }
-}
+    }
 
-    private void handleClientConnection(Socket clientSocket) {
-        try (
-                ObjectOutputStream outputStream = new ObjectOutputStream(clientSocket.getOutputStream());
-                ObjectInputStream inputStream = new ObjectInputStream(clientSocket.getInputStream())
-        ) {
-            if ( password != null ) {
-                String clientPassword = (String) inputStream.readObject();
+    public void connection(GerantDeJoueur gdc) {
+        envoiMess("[Connection]", gdc);
+        this.lstConnections.add(gdc);
+        System.out.println("Un client est venu, " + this.lstConnections.size() + " personnes sont connectées");
+    }
 
-                // Check if the password is correct
-                if (!password.equals(clientPassword)) {
-                    System.out.println("Incorrect password. Connection closed.");
-                    return;
-                }
+    public void deconnection(GerantDeJoueur gdc) {
+        envoiMess("[Deconnection]", gdc);
+        this.lstConnections.remove(gdc);
+        System.out.println("Un client est parti, " + this.lstConnections.size() + " personnes sont connectées");
+    }
+
+    public void envoiMess(String message, GerantDeJoueur gdc) {
+        for (GerantDeJoueur gerantDeClient : lstConnections) {
+            if ( gerantDeClient != gdc && message != null)
+            {
+                gerantDeClient.getOut().println(message);
             }
-
-            lstJoueur.add(clientSocket.getInetAddress().getHostAddress());
-            System.out.println("Player connected");
-
-            // Send a welcome message to the client
-            outputStream.writeObject("Welcome !");
-
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
         }
     }
+
+    public String getMotDePasse() { return this.password; }
 }

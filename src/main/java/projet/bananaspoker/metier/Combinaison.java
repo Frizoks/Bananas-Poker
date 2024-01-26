@@ -40,8 +40,13 @@ public class Combinaison
 
     private static boolean estQuinteFlushRoyale()
     {
+        return estQuinteFlushRoyale(main);
+    }
+
+    private static boolean estQuinteFlushRoyale(ArrayList<Carte> ensCartes)
+    {
         ArrayList<Integer> valeursCartes = new ArrayList<>();
-        for (Carte carte : main) {
+        for (Carte carte : ensCartes) {
             valeursCartes.add(carte.getPointCarte());
         }
         Collections.sort(valeursCartes);
@@ -54,29 +59,34 @@ public class Combinaison
         return (estCouleur() && nbCouleur(Combinaison.couleurCarte) == 5) && estQuinte();
     }
 
+    private static boolean estQuinteFlush(ArrayList<Carte> ensCartes)
+    {
+        return (estCouleur() && nbCouleur(Combinaison.couleurCarte) == 5) && estQuinte(ensCartes);
+    }
+
     private static boolean estQuinte()
     {
         return estQuinte(main);
     }
-	private static boolean estQuinte(ArrayList<Carte> ensCartes)
-	{
-		ArrayList<Integer> valeursCartes = new ArrayList<>();
-		for (Carte carte : ensCartes) {
-			valeursCartes.add(carte.getPointCarte());
-		}
-		Collections.sort(valeursCartes);
+    private static boolean estQuinte(ArrayList<Carte> ensCartes)
+    {
+        ArrayList<Integer> valeursCartes = new ArrayList<>();
+        for (Carte carte : ensCartes) {
+            valeursCartes.add(carte.getPointCarte());
+        }
+        Collections.sort(valeursCartes);
 
-		int cptQuinte = 0;
-		for (int cpt = 0; cpt < valeursCartes.size() - 1; cpt++)
-		{
-			if (valeursCartes.get(cpt).equals(valeursCartes.get(cpt + 1) - 1))
-			{
-			    cptQuinte++;
-			}
-		}
+        int cptQuinte = 0;
+        for (int cpt = 0; cpt < valeursCartes.size() - 1; cpt++)
+        {
+            if (valeursCartes.get(cpt).equals(valeursCartes.get(cpt + 1) - 1))
+            {
+                cptQuinte++;
+            }
+        }
 
-		return cptQuinte >= 4;
-	}
+        return cptQuinte >= 4;
+    }
 
     private static boolean estCouleur()
     {
@@ -179,7 +189,10 @@ public class Combinaison
         return res;
     }
 
-    private static int carteHaute()
+    private static int carteHaute() {
+        return carteHaute(main);
+    }
+    private static int carteHaute(ArrayList<Carte> ensCartes)
     {
         ArrayList<Integer> valeursCartes = new ArrayList<>();
         for (Carte carte : main) {
@@ -190,15 +203,68 @@ public class Combinaison
         return valeursCartes.get(valeursCartes.size() - 1);
     }
 
-    public static ArrayList<Carte> determineCombinaisonJoueur(Joueur j) {
-		//combJoueur.add(Table.getCartePlateau());
-		ArrayList<Carte> combJoueur = new ArrayList<>(j.getMainJoueur());
+    public static ArrayList<Carte> determineCombinaisonJoueur(Joueur j)
+    {
+        ArrayList<Carte> combJoueur = new ArrayList<>();
+        //combJoueur.add(Table.getJeuTable());
+        combJoueur.addAll(j.getMainJoueur());
 
-		if (estQuinte(combJoueur))
-		{
-		    return null; /* A changer */
-	    }
+        if (estQuinteFlushRoyale(combJoueur))
 
-		return combJoueur;
+            if (estQuinte(combJoueur))
+            {
+                return null; /* A changer */
+            }
+
+        return combJoueur;
     }
+
+    public String departageJoueurs (Joueur j1, Joueur j2)
+    {
+        ArrayList<Carte> combJ1 = j1.getCombinaisonJoueur();
+        ArrayList<Carte> combJ2 = j2.getCombinaisonJoueur();
+
+        if (estQuinteFlushRoyale(combJ1) && !estQuinteFlushRoyale(combJ2))
+            return j1.getNomJoueur() + " gagne !";
+        if (estQuinteFlushRoyale(combJ2) && !estQuinteFlushRoyale(combJ1))
+            return j2.getNomJoueur() + " gagne !";
+        if (estQuinteFlushRoyale(combJ1) &&  estQuinteFlushRoyale(combJ2))
+            return "Egalite";
+
+        if (estQuinteFlush(combJ1) && !estQuinteFlush(combJ2))
+            return j1.getNomJoueur() + " gagne !";
+        if (estQuinteFlush(combJ2) && !estQuinteFlush(combJ1))
+            return j2.getNomJoueur() + " gagne !";
+        if (estQuinteFlush(combJ1) &&  estQuinteFlush(combJ2))
+            return departageCarteHaute(j1, j2);
+
+        if (estQuinte(combJ1) && !estQuinte(combJ2))
+            return j1.getNomJoueur() + " gagne !";
+        if (estQuinte(combJ2) && !estQuinte(combJ1))
+            return j2.getNomJoueur() + " gagne !";
+        if (estQuinte(combJ1) &&  estQuinte(combJ2))
+            return departageCarteHaute(j1, j2);
+
+
+
+        return departageCarteHaute(j1, j2);
+    }
+
+    public String departageCarteHaute(Joueur j1, Joueur j2)
+    {
+        ArrayList<Carte> combJ1 = j1.getCombinaisonJoueur();
+        ArrayList<Carte> combJ2 = j2.getCombinaisonJoueur();
+
+        if (carteHaute(combJ1) > carteHaute(combJ2))
+            return j1.getNomJoueur() + " gagne !";
+        else if (carteHaute(combJ1) < carteHaute(combJ2))
+            return j2.getNomJoueur() + " gagne !";
+        else
+            return "Egalité parfaite";
+    }
+
+    /*public String gestionPaire()
+    {
+
+    }*/
 }

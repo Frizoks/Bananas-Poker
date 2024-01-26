@@ -5,35 +5,90 @@ import java.util.Collections;
 
 public class Combinaison
 {
-    private Carte[] main;
-    private char couleurCarte;
-    public String getCombinaison (Carte[] main)
+    private static Carte[] main;
+    private static char    couleurCarte;
+    private static int     valeurCarte;
+
+    public static String getCombinaison (Carte[] main)
     {
-        this.main = main;
+        Combinaison.main = main;
+        if (estQuinteFlushRoyale())
+            return "QuinteFlushRoyale";
+
+        if (estQuinteFlush())
+            return "QuinteFlush";
+        if (estQuinte())
+            return "Quinte";
+
+        if (estPaire())
+        {
+            switch (nbCarteIdentique(Combinaison.valeurCarte))
+            {
+                case 2 : return "Paire";
+                case 3 : return "Brelan";
+                case 4 : return "Carré";
+                case 5 : return "Full";
+                case 6 : return "DoublePaire";
+            }
+        }
+
         if (estCouleur())
-            return "Couleur " + nbCouleur(this.couleurCarte);
+            return "Couleur " + nbCouleur(Combinaison.couleurCarte);
 
         return "Carte haute" + carteHaute();
     }
 
-    public boolean estCouleur()
+    private static boolean estQuinteFlushRoyale()
+    {
+        ArrayList<Integer> valeursCartes = new ArrayList<>();
+        for (Carte carte : main) {
+            valeursCartes.add(carte.getPointCarte());
+        }
+        Collections.sort(valeursCartes);
+
+        return estQuinteFlush() && valeursCartes.get(valeursCartes.size()-1).equals(14);
+    }
+
+    private static boolean estQuinteFlush()
+    {
+        return (estCouleur() && nbCouleur(Combinaison.couleurCarte) == 5) && estQuinte();
+    }
+
+    private static boolean estQuinte()
+    {
+        ArrayList<Integer> valeursCartes = new ArrayList<>();
+        for (Carte carte : main) {
+            valeursCartes.add(carte.getPointCarte());
+        }
+        Collections.sort(valeursCartes);
+
+        for (int cpt = 0; cpt < valeursCartes.size() - 1; cpt++)
+        {
+            if (!valeursCartes.get(cpt).equals(valeursCartes.get(cpt + 1) - 1))
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    private static boolean estCouleur()
     {
         // Premier test si il y a une couleur, renseigné ici un char différent de toutes couleurs disponibles
         return estCouleur('z');
     }
-    public boolean estCouleur (char autrecoul)
+    private static boolean estCouleur(char autrecoul)
     {
         // autrecoul sert à savoir si il y a une autre combinaison de couleurs dans la main
 
-        // Faire conditions de vérification si ce n'est pas une autre combinaison
-
-        for (int cpt1 = 0; cpt1 < this.main.length-1; cpt1++)
+        for (int cpt1 = 0; cpt1 < main.length-1; cpt1++)
         {
-            for (int cpt2 = cpt1+1; cpt2 < this.main.length; cpt2++)
+            for (int cpt2 = cpt1+1; cpt2 < main.length; cpt2++)
             {
-                if ( (this.main[cpt1].getCouleur() == this.main[cpt2].getCouleur()) && this.main[cpt1].getCouleur() != autrecoul )
+                if ( (main[cpt1].getCouleur() == main[cpt2].getCouleur()) && main[cpt1].getCouleur() != autrecoul )
                 {
-                    this.couleurCarte = this.main[cpt1].getCouleur();
+                    Combinaison.couleurCarte = main[cpt1].getCouleur();
                     return true;
                 }
             }
@@ -41,29 +96,91 @@ public class Combinaison
         return false;
     }
 
-    private int nbCouleur(char couleurCarte)
+    private static int nbCouleur(char couleurCarte)
     {
         int res = 0;
-        for (Carte c : this.main)
+        for (Carte c : main)
         {
             if (c.getCouleur() == couleurCarte)
                 res++;
         }
 
-        if ( estCouleur(couleurCarte) && res < nbCouleur(this.couleurCarte))
-        // estCouleur change la variable couleurCarte, dans couleurCarte se trouve la couleur de l'autre paire
+        if ( estCouleur(couleurCarte) )
         {
-            return nbCouleur(this.couleurCarte);
+            int val = 0;
+
+            for (Carte c : main)
+            {
+                if (c.getCouleur() == Combinaison.couleurCarte)
+                    val++;
+            }
+
+            if (res < val)
+                return val;
         }
+
         return res;
     }
 
-    private int carteHaute()
+    private static boolean estPaire()
+    {
+        // Premier test si il y a une couleur, renseigné ici un char différent de toutes couleurs disponibles
+        return estPaire(50);
+    }
+    private static boolean estPaire(int autreValeur)
+    {
+        // autrecoul sert à savoir si il y a une autre combinaison de couleurs dans la main
+
+        for (int cpt1 = 0; cpt1 < main.length-1; cpt1++)
+        {
+            for (int cpt2 = cpt1+1; cpt2 < main.length; cpt2++)
+            {
+                if ( (main[cpt1].getValeur() == main[cpt2].getValeur()) && main[cpt1].getValeur() != autreValeur )
+                {
+                    Combinaison.valeurCarte = main[cpt1].getValeur();
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private static int nbCarteIdentique (int valeurCarte)
+    {
+        int res = 0;
+        for (Carte c : main)
+        {
+            if (c.getValeur() == valeurCarte)
+                res++;
+        }
+		System.out.println(res);
+
+        if ( estPaire(valeurCarte) )
+        {
+            int val = 0;
+
+            for (Carte c : main)
+            {
+                if (c.getValeur() == Combinaison.valeurCarte)
+                    val++;
+            }
+
+            if (res != val)
+                return 5;
+            else
+                return 6;
+        }
+
+        return res;
+    }
+
+
+
+    private static int carteHaute()
     {
         ArrayList<Integer> valeursCartes = new ArrayList<>();
-        for (int cpt = 0; cpt < this.main.length; cpt++)
-        {
-            valeursCartes.add(this.main[cpt].getValeur());
+        for (Carte carte : main) {
+            valeursCartes.add(carte.getValeur());
         }
         Collections.sort(valeursCartes);
 

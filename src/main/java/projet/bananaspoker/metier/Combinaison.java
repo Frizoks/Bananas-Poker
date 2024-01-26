@@ -151,7 +151,7 @@ public class Combinaison
             if (c.getValeur() == valeurCarte)
                 res++;
         }
-		System.out.println(res);
+        System.out.println(res);
 
         if ( estPaire(valeurCarte) )
         {

@@ -5,11 +5,11 @@ import java.util.Collections;
 
 public class Combinaison
 {
-    private static Carte[] main;
-    private static char    couleurCarte;
-    private static int     valeurCarte;
+    private static ArrayList<Carte> main;
+    private static char             couleurCarte;
+    private static int              valeurCarte;
 
-    public static String getCombinaison (Carte[] main)
+    public static String getCombinaison (ArrayList<Carte> main)
     {
         Combinaison.main = main;
         if (estQuinteFlushRoyale())
@@ -65,9 +65,7 @@ public class Combinaison
         for (int cpt = 0; cpt < valeursCartes.size() - 1; cpt++)
         {
             if (!valeursCartes.get(cpt).equals(valeursCartes.get(cpt + 1) - 1))
-            {
                 return false;
-            }
         }
 
         return true;
@@ -82,13 +80,13 @@ public class Combinaison
     {
         // autrecoul sert à savoir si il y a une autre combinaison de couleurs dans la main
 
-        for (int cpt1 = 0; cpt1 < main.length-1; cpt1++)
+        for (int cpt1 = 0; cpt1 < main.size()-1; cpt1++)
         {
-            for (int cpt2 = cpt1+1; cpt2 < main.length; cpt2++)
+            for (int cpt2 = cpt1+1; cpt2 < main.size(); cpt2++)
             {
-                if ( (main[cpt1].getCouleur() == main[cpt2].getCouleur()) && main[cpt1].getCouleur() != autrecoul )
+                if ( (main.get(cpt1).getCouleur() == main.get(cpt2).getCouleur()) && main.get(cpt1).getCouleur() != autrecoul )
                 {
-                    Combinaison.couleurCarte = main[cpt1].getCouleur();
+                    Combinaison.couleurCarte = main.get(cpt1).getCouleur();
                     return true;
                 }
             }
@@ -131,13 +129,13 @@ public class Combinaison
     {
         // autrecoul sert à savoir si il y a une autre combinaison de couleurs dans la main
 
-        for (int cpt1 = 0; cpt1 < main.length-1; cpt1++)
+        for (int cpt1 = 0; cpt1 < main.size()-1; cpt1++)
         {
-            for (int cpt2 = cpt1+1; cpt2 < main.length; cpt2++)
+            for (int cpt2 = cpt1+1; cpt2 < main.size(); cpt2++)
             {
-                if ( (main[cpt1].getValeur() == main[cpt2].getValeur()) && main[cpt1].getValeur() != autreValeur )
+                if ( (main.get(cpt1).getValeur() == main.get(cpt2).getValeur()) && main.get(cpt1).getValeur() != autreValeur )
                 {
-                    Combinaison.valeurCarte = main[cpt1].getValeur();
+                    Combinaison.valeurCarte = main.get(cpt1).getValeur();
                     return true;
                 }
             }
@@ -173,8 +171,6 @@ public class Combinaison
 
         return res;
     }
-
-
 
     private static int carteHaute()
     {

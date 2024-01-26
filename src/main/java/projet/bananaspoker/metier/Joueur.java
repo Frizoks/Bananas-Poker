@@ -39,7 +39,7 @@ public class Joueur
         return mainJoueur;
     }
 
-    public void setMainJoueur(ArrayList<Carte> jeuJoueur)
+    public void setMainJoueur(ArrayList<Carte> mainJoueur)
     {
         this.mainJoueur = mainJoueur;
     }

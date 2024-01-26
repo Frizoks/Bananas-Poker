@@ -7,6 +7,7 @@ import javafx.scene.control.*;
 import javafx.stage.Stage;
 import projet.bananaspoker.metier.Salle;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -36,11 +37,10 @@ public class SatgeCreerSalon extends Stage implements Initializable
         this.spnNbJeton.setValueFactory(valueFactoryNbJetons);
     }
 
-    public void onBtnCreer()
-    {
-        Salle salle = new Salle((int)(Math.random()*45000+1030),spnNbJoueur.getValue(), txtMdp.getText().isEmpty() ?null:txtMdp.getText());
-        Thread tgdc = new Thread(salle);
-        tgdc.start();
+    public void onBtnCreer() throws IOException {
+        Salle salle = new Salle(/*(int)(Math.random()*45000+1030)*/6000,spnNbJoueur.getValue(), txtMdp.getText().isEmpty() ?null:txtMdp.getText());
+        Thread thread = new Thread(salle);
+        thread.start();
     }
 
     public void onBtnAnnuler()

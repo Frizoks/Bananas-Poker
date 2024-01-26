@@ -8,40 +8,41 @@ import java.net.Socket;
 
 public class GerantDeJoueur implements Runnable
 {
-    private boolean accepte;
     private Salle serv;
     private PrintWriter out;
     private BufferedReader in;
 
     public GerantDeJoueur(Socket so, Salle serv) throws IOException {
         this.serv = serv;
-        this.out = new PrintWriter(so.getOutputStream(), true);
-        this.in = new BufferedReader(new InputStreamReader(so.getInputStream()));
-        this.accepte = true;
-        if ( serv.getMotDePasse() != null ) {
-            this.out.println("Mot de passe : ");
-            String mdp = this.in.readLine();
-            if ( !mdp.equals(serv.getMotDePasse()))
-                this.accepte = false;
-        }
+        this.out  = new PrintWriter(so.getOutputStream(), true);
+        this.in   = new BufferedReader(new InputStreamReader(so.getInputStream()));
+        this.serv.connection(this);
     }
 
     public PrintWriter getOut() {
         return this.out;
     }
 
-    public boolean estAccepte() { return this.accepte; }
-
     public void run() {
         try {
-            this.out.println("Bonjour Bienvenue sur le serveur Poker de Mathys");
-            while (true) {
-                this.out.println("Entrez un message :");
-                String message = in.readLine();
-                this.serv.envoiMess(message, this);
-                if (this.out.checkError()) {
+            if ( serv.getMotDePasse() != null) {
+                this.out.println("Mot de passe : ");
+                String mdp = this.in.readLine();
+                if ( !mdp.equals(serv.getMotDePasse())) {
+                    this.out.println("Mot de passe incorecte, des bisous");
                     this.serv.deconnection(this);
-                    break;
+                }
+            }
+            else {
+                this.out.println("Bonjour Bienvenue sur le serveur Poker de Mathys");
+                while (true) {
+                    this.out.println("Entrez un message :");
+                    String message = in.readLine();
+                    this.serv.envoiMess(message, this);
+                    if (this.out.checkError()) {
+                        this.serv.deconnection(this);
+                        break;
+                    }
                 }
             }
         } catch (IOException e) {

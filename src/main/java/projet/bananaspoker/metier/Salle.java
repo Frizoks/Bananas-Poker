@@ -29,14 +29,8 @@ public class Salle implements Runnable {
             while (lstConnections.size() < numberOfPlayers) {
                 Socket clientSocket = serverSocket.accept();
                 GerantDeJoueur gdj = new GerantDeJoueur(clientSocket,this);
-                if (gdj.estAccepte()) {
-                    connection(gdj);
-                    Thread tgdc = new Thread(gdj);
-                    tgdc.start();
-                }
-                else {
-                    gdj.getOut().println("Mot de passe incorecte, connection refusé");
-                }
+                Thread tgdc = new Thread(gdj);
+                tgdc.start();
             }
 
             System.out.println("All lstJoueur connected. Server is closing.");
@@ -47,6 +41,8 @@ public class Salle implements Runnable {
 
     public void connection(GerantDeJoueur gdc) {
         envoiMess("[Connection]", gdc);
+        gdc.getOut().println("Bonjour");
+        System.out.println(gdc.getOut());
         this.lstConnections.add(gdc);
         System.out.println("Un client est venu, " + this.lstConnections.size() + " personnes sont connectées");
     }

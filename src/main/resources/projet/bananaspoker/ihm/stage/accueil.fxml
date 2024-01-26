@@ -18,5 +18,6 @@
       </ImageView>
       <Button layoutX="93.0" layoutY="349.0" mnemonicParsing="false" onAction="#onBtnCreer" prefWidth="150.0" text="Créer un salon" />
       <Button layoutX="93.0" layoutY="309.0" mnemonicParsing="false" onAction="#onBtnRejoindre" prefWidth="150.0" text="Rejoindre une partie" />
+      <Label fx:id="lblTitre" layoutX="403.0" layoutY="30.0" prefHeight="51.0" prefWidth="216.0" text="Bananas' Poker" />
    </children>
 </AnchorPane>

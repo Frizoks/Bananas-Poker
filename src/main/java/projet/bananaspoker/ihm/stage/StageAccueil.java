@@ -1,6 +1,9 @@
 package projet.bananaspoker.ihm.stage;
 
+import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
+import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import projet.bananaspoker.ihm.PopUp;
 
@@ -9,7 +12,8 @@ import java.util.ResourceBundle;
 
 public class StageAccueil extends Stage implements Initializable
 {
-	public StageAccueil() // fxml -> "accueil"
+
+    public StageAccueil() // fxml -> "accueil"
 	{
 		this.setTitle("Bananas' Poker");
 		this.setMinWidth(700);

@@ -54,6 +54,20 @@ public class Joueur
         this.nbJetonsJoueur = nbJetonsJoueur;
     }
 
+    public int enleverJetons(int nbJetons)
+    {
+        if(this.nbJetonsJoueur - nbJetons > 0)
+        {
+            this.nbJetonsJoueur -= nbJetons;
+            return nbJetons;
+        }
+        else {
+            nbJetons = this.nbJetonsJoueur;
+            this.nbJetonsJoueur = 0;
+            return nbJetons;
+        }
+    }
+
     public ArrayList<Carte> getCombinaisonJoueur() {
         return combinaisonJoueur;
     }

@@ -56,20 +56,27 @@ public class Combinaison
 
     private static boolean estQuinte()
     {
-        ArrayList<Integer> valeursCartes = new ArrayList<>();
-        for (Carte carte : main) {
-            valeursCartes.add(carte.getPointCarte());
-        }
-        Collections.sort(valeursCartes);
-
-        for (int cpt = 0; cpt < valeursCartes.size() - 1; cpt++)
-        {
-            if (!valeursCartes.get(cpt).equals(valeursCartes.get(cpt + 1) - 1))
-                return false;
-        }
-
-        return true;
+        return estQuinte(main);
     }
+	private static boolean estQuinte(ArrayList<Carte> ensCartes)
+	{
+		ArrayList<Integer> valeursCartes = new ArrayList<>();
+		for (Carte carte : ensCartes) {
+			valeursCartes.add(carte.getPointCarte());
+		}
+		Collections.sort(valeursCartes);
+
+		int cptQuinte = 0;
+		for (int cpt = 0; cpt < valeursCartes.size() - 1; cpt++)
+		{
+			if (valeursCartes.get(cpt).equals(valeursCartes.get(cpt + 1) - 1))
+			{
+			    cptQuinte++;
+			}
+		}
+
+		return cptQuinte >= 4;
+	}
 
     private static boolean estCouleur()
     {
@@ -181,5 +188,17 @@ public class Combinaison
         Collections.sort(valeursCartes);
 
         return valeursCartes.get(valeursCartes.size() - 1);
+    }
+
+    public static ArrayList<Carte> determineCombinaisonJoueur(Joueur j) {
+		//combJoueur.add(Table.getCartePlateau());
+		ArrayList<Carte> combJoueur = new ArrayList<>(j.getMainJoueur());
+
+		if (estQuinte(combJoueur))
+		{
+		    return null; /* A changer */
+	    }
+
+		return combJoueur;
     }
 }

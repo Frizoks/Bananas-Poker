@@ -39,7 +39,8 @@ public class SatgeCreerSalon extends Stage implements Initializable
     public void onBtnCreer()
     {
         Salle salle = new Salle((int)(Math.random()*45000+1030),spnNbJoueur.getValue(), txtMdp.getText().isEmpty() ?null:txtMdp.getText());
-        salle.start();
+        Thread tgdc = new Thread(salle);
+        tgdc.start();
     }
 
     public void onBtnAnnuler()

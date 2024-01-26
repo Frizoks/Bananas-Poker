@@ -8,7 +8,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class Salle {
+public class Salle implements Runnable {
 
     private final int port;
     private final int numberOfPlayers;
@@ -22,7 +22,7 @@ public class Salle {
         this.lstConnections = new ArrayList<>();
     }
 
-    public void start() {
+    public void run() {
         try (ServerSocket serverSocket = new ServerSocket(port)) {
             System.out.println("Server is running on port " + port);
 

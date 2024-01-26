@@ -6,7 +6,7 @@ import java.net.Socket;
 public class Client {
 
     public Client() throws IOException {
-        Socket socket = new Socket("localhost", 22017);
+        Socket socket = new Socket("localhost", 8829);
 
         while (true) {
             try {

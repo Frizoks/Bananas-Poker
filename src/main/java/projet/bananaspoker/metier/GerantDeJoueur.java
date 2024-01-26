@@ -18,8 +18,7 @@ public class GerantDeJoueur implements Runnable
         this.out = new PrintWriter(so.getOutputStream(), true);
         this.in = new BufferedReader(new InputStreamReader(so.getInputStream()));
         this.accepte = true;
-        this.out.println(serv.getMotDePasse());
-        if ( serv.getMotDePasse() != null) {
+        if ( serv.getMotDePasse() != null ) {
             this.out.println("Mot de passe : ");
             String mdp = this.in.readLine();
             if ( !mdp.equals(serv.getMotDePasse()))

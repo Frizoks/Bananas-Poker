@@ -1,6 +1,9 @@
 package projet.bananaspoker.metier;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Carte implements Comparable{
 
 	public final static char COEUR   = '♥';
@@ -18,15 +21,15 @@ public class Carte implements Comparable{
 		this.nom = nom;
 	}
 
-	public static Carte[] genererJeu()
+	public static List<Carte> genererJeu()
 	{
-		Carte[] jeu = new Carte[52];
+		List<Carte> jeu = new ArrayList<Carte>();
 		int[] ensValeurs = {1,2,3,4,5,6,7,8,9,10,11,12,13};
 		String[] ensNomsValeurs = {"As","2","3","4","5","6","7","8","9","10","Valet","Roi","Dame"};
 		char[] ensCouleurs = {COEUR,CARREAU,TREFLE,PIQUE};
 		String[] ensNomsCouleurs = {"coeur","carreau","trefle","pique"};
 
-		int nbCartes = 0;
+
 		for (int cptCouleur = 0; cptCouleur < 4; cptCouleur++)
 		{
 			for (int cptValeur = 0; cptValeur < 13; cptValeur++)
@@ -34,8 +37,7 @@ public class Carte implements Comparable{
 				int    val  = ensValeurs[cptValeur];
 				char   coul = ensCouleurs[cptCouleur];
 				String nom  = ensNomsValeurs[cptValeur] + " de " + ensNomsCouleurs[cptCouleur];
-				jeu[nbCartes] = new Carte(coul, val, nom);
-				nbCartes++;
+				jeu.add(new Carte(coul, val, nom));
 			}
 		}
 

@@ -22,7 +22,7 @@ public class Carte implements Comparable{
 	{
 		Carte[] jeu = new Carte[52];
 		int[] ensValeurs = {1,2,3,4,5,6,7,8,9,10,11,12,13};
-		String[] ensNomsValeurs = {"As","2","3","4","5","6","7","8","9","10","Valet","Dame","Roi"};
+		String[] ensNomsValeurs = {"As","2","3","4","5","6","7","8","9","10","Valet","Roi","Dame"};
 		char[] ensCouleurs = {COEUR,CARREAU,TREFLE,PIQUE};
 		String[] ensNomsCouleurs = {"coeur","carreau","trefle","pique"};
 
@@ -66,6 +66,12 @@ public class Carte implements Comparable{
 		this.nom = nom;
 	}
 
+	public int getPointCarte()
+	{
+		int[] ensPoints = {14,2,3,4,5,6,7,8,9,10,11,12,13};
+		return ensPoints[this.getValeur()-1];
+	}
+
 	public boolean equals(Object object) {
 		if (this == object) return true;
 		if (object == null || getClass() != object.getClass()) return false;
@@ -80,7 +86,7 @@ public class Carte implements Comparable{
 
 	@Override
 	public int compareTo(Object o) {
-		int[] ensPoints = {13,1,2,3,4,5,6,7,8,9,10,11,12};
+		int[] ensPoints = {14,2,3,4,5,6,7,8,9,10,11,12,13};
 		Carte autreCarte = (Carte) o;
 		return ensPoints[this.valeur-1] - ensPoints[autreCarte.getValeur()-1];
 	}

@@ -33,6 +33,9 @@ public class Salle implements Runnable {
                 tgdc.start();
             }
 
+            while ( !partieGagne )
+                new Manche;
+
             System.out.println("All lstJoueur connected. Server is closing.");
         } catch (IOException e) {
             e.printStackTrace();

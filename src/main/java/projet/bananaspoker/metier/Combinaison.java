@@ -1,5 +1,8 @@
 package projet.bananaspoker.metier;
 
+import java.util.ArrayList;
+import java.util.Collections;
+
 public class Combinaison
 {
     private Carte[] main;
@@ -10,7 +13,7 @@ public class Combinaison
         if (estCouleur())
             return "Couleur " + nbCouleur(this.couleurCarte);
 
-        return "";
+        return "Carte haute" + carteHaute();
     }
 
     public boolean estCouleur()
@@ -28,9 +31,9 @@ public class Combinaison
         {
             for (int cpt2 = cpt1+1; cpt2 < this.main.length; cpt2++)
             {
-                if ( (this.main[cpt1].getCoul() == this.main[cpt2].getCoul()) && this.main[cpt1].getCoul() != autrecoul )
+                if ( (this.main[cpt1].getCouleur() == this.main[cpt2].getCouleur()) && this.main[cpt1].getCouleur() != autrecoul )
                 {
-                    this.couleurCarte = this.main[cpt1].getCoul();
+                    this.couleurCarte = this.main[cpt1].getCouleur();
                     return true;
                 }
             }
@@ -43,7 +46,7 @@ public class Combinaison
         int res = 0;
         for (Carte c : this.main)
         {
-            if (c.getCoul() == couleurCarte)
+            if (c.getCouleur() == couleurCarte)
                 res++;
         }
 
@@ -53,5 +56,17 @@ public class Combinaison
             return nbCouleur(this.couleurCarte);
         }
         return res;
+    }
+
+    private int carteHaute()
+    {
+        ArrayList<Integer> valeursCartes = new ArrayList<>();
+        for (int cpt = 0; cpt < this.main.length; cpt++)
+        {
+            valeursCartes.add(this.main[cpt].getValeur());
+        }
+        Collections.sort(valeursCartes);
+
+        return valeursCartes.get(valeursCartes.size() - 1);
     }
 }

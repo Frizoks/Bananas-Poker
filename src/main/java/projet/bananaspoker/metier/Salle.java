@@ -11,22 +11,24 @@ import java.util.HashMap;
 public class Salle implements Runnable {
 
     private final int port;
-    private final int numberOfPlayers;
     private final String password;
+    private final int nbJetonsDep;
+    private final int nbJoueursTot;
     private final ArrayList<GerantDeJoueur> lstConnections;
 
-    public Salle(int port, int numberOfPlayers, String password) {
+    public Salle(int port, int nbJoueursTot, String password, int nbJetonsDep) {
         this.port = port;
-        this.numberOfPlayers = numberOfPlayers;
+        this.nbJoueursTot = nbJoueursTot;
         this.password = password;
         this.lstConnections = new ArrayList<>();
+        this.nbJetonsDep = nbJetonsDep;
     }
 
     public void run() {
         try (ServerSocket serverSocket = new ServerSocket(port)) {
             System.out.println("Server is running on port " + port);
 
-            while (lstConnections.size() < numberOfPlayers) {
+            while (lstConnections.size() < nbJoueursTot) {
                 Socket clientSocket = serverSocket.accept();
                 GerantDeJoueur gdj = new GerantDeJoueur(clientSocket,this);
                 Thread tgdc = new Thread(gdj);
@@ -68,4 +70,6 @@ public class Salle implements Runnable {
     }
 
     public String getMotDePasse() { return this.password; }
+    public int getNbJetonsDep() { return this.nbJetonsDep; }
+    public int getNbJoueursTot() { return this.nbJoueursTot; }
 }

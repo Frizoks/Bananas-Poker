@@ -4,9 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Table {
+    private Salle salle;
 
     private static int nbManches = 0;
-    private static int blinde = 0;
+    private int blinde;
     private Joueur premierJoueur = null;
     private List<Carte>  pioche;
     private List<Carte>  jeuTable;
@@ -14,7 +15,9 @@ public class Table {
     private int nbTours;
 
 
-    public Table(/*ArrayList<Joueur> joueurs*/) {
+    public Table(Salle salle, ArrayList<Joueur> joueurs) {
+        this.salle = salle;
+
         this.pioche   = Carte.genererJeu();
         this.jeuTable = new ArrayList<Carte>();
 
@@ -22,6 +25,9 @@ public class Table {
 
         this.nbTours  = 0;
         Table.nbManches++;
+
+        int blindeTemp = salle.getNbJoueursTot() - this.joueurs.size();
+        this.blinde = salle.getNbJetonsDep() * blindeTemp;
     }
 
     public void jouer() {

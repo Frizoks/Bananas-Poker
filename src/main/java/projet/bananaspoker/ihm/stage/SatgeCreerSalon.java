@@ -38,7 +38,7 @@ public class SatgeCreerSalon extends Stage implements Initializable
     }
 
     public void onBtnCreer() throws IOException {
-        Salle salle = new Salle(/*(int)(Math.random()*45000+1030)*/6000,spnNbJoueur.getValue(), txtMdp.getText().isEmpty() ?null:txtMdp.getText());
+        Salle salle = new Salle(/*(int)(Math.random()*45000+1030)*/6000,spnNbJoueur.getValue(), txtMdp.getText().isEmpty() ?null:txtMdp.getText(), this.spnNbJeton.getValue());
         Thread thread = new Thread(salle);
         thread.start();
     }

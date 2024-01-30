@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
@@ -13,8 +14,8 @@
          </image></ImageView>
       <GridPane alignment="CENTER" layoutX="34.0" layoutY="56.0" prefHeight="319.0" prefWidth="354.0">
         <columnConstraints>
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="190.0" minWidth="10.0" prefWidth="128.20000000000002" />
-          <ColumnConstraints hgrow="SOMETIMES" maxWidth="269.0" minWidth="10.0" prefWidth="225.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="190.0" minWidth="10.0" prefWidth="147.0" />
+          <ColumnConstraints hgrow="SOMETIMES" maxWidth="269.0" minWidth="10.0" prefWidth="207.0" />
         </columnConstraints>
         <rowConstraints>
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
@@ -28,8 +29,14 @@
             <PasswordField fx:id="txtMdp" prefHeight="26.0" prefWidth="19.0" promptText="optionnel" GridPane.columnIndex="1" GridPane.rowIndex="3" />
             <TextField fx:id="txtNomSalon" GridPane.columnIndex="1" />
             <Spinner fx:id="spnNbJeton" prefHeight="26.0" prefWidth="345.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onBtnCreer" prefWidth="100.0" text="Créer" GridPane.rowIndex="5" />
-            <Button mnemonicParsing="false" onAction="#onBtnAnnuler" prefWidth="100.0" text="Annuler" GridPane.columnIndex="1" GridPane.rowIndex="5" />
+            <Button alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" onAction="#onBtnCreer" prefWidth="100.0" text="Créer" GridPane.rowIndex="5">
+               <GridPane.margin>
+                  <Insets left="50.0" />
+               </GridPane.margin></Button>
+            <Button mnemonicParsing="false" onAction="#onBtnAnnuler" prefWidth="100.0" text="Annuler" GridPane.columnIndex="1" GridPane.rowIndex="5">
+               <GridPane.margin>
+                  <Insets left="50.0" />
+               </GridPane.margin></Button>
             <Label text="Nom du Salon" textFill="#fffbfb">
                <font>
                   <Font name="System Bold Italic" size="12.0" />
@@ -40,7 +47,7 @@
                   <Font name="System Bold Italic" size="12.0" />
                </font>
             </Label>
-            <Label text="Nombres de jetons/J" textFill="WHITE" GridPane.rowIndex="2">
+            <Label text="Nombres de jetons" textFill="WHITE" GridPane.rowIndex="2">
                <font>
                   <Font name="System Bold Italic" size="12.0" />
                </font>

@@ -40,7 +40,7 @@ public class Salle implements Runnable {
                 table.jouer();
             }*/
 
-            System.out.println("All lstJoueur connected. Server is closing.");
+            System.out.println("Game finish. Server is closing.");
         } catch (IOException e) {
             e.printStackTrace();
         }

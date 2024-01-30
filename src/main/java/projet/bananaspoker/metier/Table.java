@@ -31,17 +31,20 @@ public class Table {
     }
 
     public void jouer() {
+
+        //debut de la manche et repartition de la blinde
+
+
+        this.joueurs.get(0).enleverJetons(this.blinde);
+        this.joueurs.get(joueurs.size()-1).enleverJetons(this.blinde * 2);
+
         while(this.joueurs.size() > 1) {
-            if(nbManches == 1) {this.premierJoueur = this.joueurs.get(0);}
-            else {this.premierJoueur = this.getJoueurSuivant(this.premierJoueur);}
 
-            this.joueurs.get(this.joueurs.indexOf(premierJoueur)).enleverJetons(this.blinde);
-            if(this.joueurs.indexOf(premierJoueur) < this.joueurs.size()) {this.joueurs.get(this.joueurs.indexOf(premierJoueur) + 1).enleverJetons(this.blinde);}
-            else {this.joueurs.get(0).enleverJetons(this.blinde * 2);}
-
-
+            System.out.print("luc gros nul, t pas bo");
 
         }
+
+        joueurs.add(joueurs.remove(0));
     }
 
     public Joueur getJoueurSuivant(Joueur joueur) {

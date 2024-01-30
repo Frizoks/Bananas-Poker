@@ -11,13 +11,17 @@
             <Image url="@../images/fondAccueil.jpg" />
          </image>
       </ImageView>
-      <ImageView fitHeight="263.0" fitWidth="309.0" layoutX="81.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
+      <ImageView fitHeight="263.0" fitWidth="309.0" layoutX="64.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../images/singeAccueil.png" />
          </image>
       </ImageView>
-      <Button layoutX="93.0" layoutY="349.0" mnemonicParsing="false" onAction="#onBtnCreer" prefWidth="150.0" text="Créer un salon" />
-      <Button layoutX="93.0" layoutY="309.0" mnemonicParsing="false" onAction="#onBtnRejoindre" prefWidth="150.0" text="Rejoindre une partie" />
-      <Label fx:id="lblTitre" layoutX="403.0" layoutY="30.0" prefHeight="51.0" prefWidth="216.0" text="Bananas' Poker" />
+      <Button layoutX="87.0" layoutY="379.0" mnemonicParsing="false" onAction="#onBtnCreer" prefHeight="36.0" prefWidth="168.0" text="Créer un salon" />
+      <Button layoutX="87.0" layoutY="332.0" mnemonicParsing="false" onAction="#onBtnRejoindre" prefHeight="36.0" prefWidth="168.0" text="Rejoindre une partie" />
+      <ImageView fitHeight="118.0" fitWidth="439.0" layoutX="268.0" layoutY="32.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/titre.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>

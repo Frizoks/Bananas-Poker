@@ -9,9 +9,9 @@ public class Table {
     private static int nbManches = 0;
     private int blinde;
     private Joueur premierJoueur = null;
-    private List<Carte>  pioche;
-    private List<Carte>  jeuTable;
-    private List<Joueur> joueurs;
+    private ArrayList<Carte>  pioche;
+    private ArrayList<Carte>  jeuTable;
+    private ArrayList<Joueur> joueurs;
     private int nbTours;
 
 
@@ -31,25 +31,19 @@ public class Table {
     }
 
     public void jouer() {
+        ArrayList<Joueur> joueursQuiJoue = (ArrayList<Joueur>) this.joueurs.clone();
 
         //debut de la manche et repartition de la blinde
+        joueursQuiJoue.get(0).enleverJetons(this.blinde);
+        joueursQuiJoue.get(joueursQuiJoue.size()-1).enleverJetons(this.blinde * 2);
 
-
-        this.joueurs.get(0).enleverJetons(this.blinde);
-        this.joueurs.get(joueurs.size()-1).enleverJetons(this.blinde * 2);
-
-        while(this.joueurs.size() > 1) {
+        while(joueursQuiJoue.size() > 1) {
 
             System.out.print("luc gros nul, t pas bo");
 
         }
 
         joueurs.add(joueurs.remove(0));
-    }
-
-    public Joueur getJoueurSuivant(Joueur joueur) {
-        if(this.joueurs.get(this.joueurs.size() - 1) == joueur) {return this.joueurs.get(0);}
-        return this.joueurs.get(this.joueurs.indexOf(joueur) + 1);
     }
 
 
@@ -59,10 +53,10 @@ public class Table {
      ********************
      */
 
-    public List<Carte> getPioche() {
+    public ArrayList<Carte> getPioche() {
         return pioche;
     }
-    public void setPioche(List<Carte> pioche) {
+    public void setPioche(ArrayList<Carte> pioche) {
         this.pioche = pioche;
     }
     public void addPioche(Carte aAjouter) {
@@ -75,11 +69,11 @@ public class Table {
         return this.pioche.remove(0);
     }
 
-    public List<Carte> getJeuTable() {
+    public ArrayList<Carte> getJeuTable() {
         return jeuTable;
     }
 
-    public void setJeuTable(List<Carte> jeuTable) {
+    public void setJeuTable(ArrayList<Carte> jeuTable) {
         this.jeuTable = jeuTable;
     }
 
@@ -91,10 +85,10 @@ public class Table {
         setJeuTable(jeuTableTemp);
     }
 
-    public List<Joueur> getJoueurs() {
+    public ArrayList<Joueur> getJoueurs() {
         return joueurs;
     }
-    public void setJoueurs(List<Joueur> joueurs) {
+    public void setJoueurs(ArrayList<Joueur> joueurs) {
         this.joueurs = joueurs;
     }
     public void addJoueur(Joueur joueur) {

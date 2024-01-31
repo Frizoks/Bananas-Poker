@@ -4,9 +4,6 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
-import projet.bananaspoker.metier.Salle;
-
-import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -32,14 +29,15 @@ public class StageCreerSalon extends Stage implements Initializable
 
         SpinnerValueFactory<Integer> valueFactoryNbJoueur = new SpinnerValueFactory.IntegerSpinnerValueFactory(2, 8, 4, 1);
         this.spnNbJoueur.setValueFactory(valueFactoryNbJoueur);
-        SpinnerValueFactory<Integer> valueFactoryNbJetons = new SpinnerValueFactory.IntegerSpinnerValueFactory(1000,500000, 10000, spnNbJeton.getValue() == 1000 ? 4000 : 5000);
+        //ici
+        SpinnerValueFactory<Integer> valueFactoryNbJetons = new SpinnerValueFactory.IntegerSpinnerValueFactory(5000,500000, 10000, 5000);
         this.spnNbJeton.setValueFactory(valueFactoryNbJetons);
     }
 
     public void onBtnCreer() {
-        new StageSalleAttente(spnNbJoueur.getValue(), txtMdp.getText().isEmpty() ?null:txtMdp.getText(), this.spnNbJeton.getValue());
-        this.close();
         Stage stage = Gestionnaire.creer("salleAttente");
+        StageSalleAttente.creerSalleAttente(spnNbJoueur.getValue(), txtMdp.getText().isEmpty() ?null:txtMdp.getText(), this.spnNbJeton.getValue());
+        this.close();
         stage.show();
     }
 

@@ -20,23 +20,20 @@ public class StageSalleAttente extends Stage implements Initializable {
     @FXML
     public GridPane grdTabJoueur;
     private ArrayList<Label> lstLabel;
-    private final int port = /*(int)(Math.random()*45000+1030)*/6000;
+    private static final int port = /*(int)(Math.random()*45000+1030)*/6000;
 
-    private Thread serveur;
+    private static Thread serveur;
 
     private int cptCol;
     private int cptLig;
 
-    public StageSalleAttente(int nbJoueur, String mdp, int nbJetons)
+    public static void creerSalleAttente(int nbJoueur, String mdp, int nbJetons)
     {
-        Salle salle = new Salle(this.port,nbJoueur, mdp, nbJetons);
-        this.serveur = new Thread(salle);
-        this.serveur.start();
-        this.setOnCloseRequest(event -> {
-            Stage stage = Gestionnaire.creer("accueil");
-            stage.show();
-            this.serveur.interrupt();
-        });
+        Salle salle = new Salle(port,nbJoueur, mdp, nbJetons);
+        if (serveur == null) {
+            serveur = new Thread(salle);
+            serveur.start();
+        }
     }
 
     @Override
@@ -45,12 +42,17 @@ public class StageSalleAttente extends Stage implements Initializable {
         grdTabJoueur.getChildren().clear();
         lstLabel = new ArrayList<>();
         cptCol = cptLig = 0;
+
+        this.setOnCloseRequest(event -> {
+            Stage stage = Gestionnaire.creer("accueil");
+            stage.show();
+            if (serveur != null) serveur.interrupt();
+        });
     }
 
     public void ajouterObjet() {
         GridPane grdPaneTemp = new GridPane();
 
-        // Ajouter des objets identiques
         ImageView imageView = new ImageView((int)(Math.random()*2) == 1 ? "@../images/icons/ppHomme.png" : "@../images/icons/ppFemme.png");
         Label labelNom = new Label("Luc");
 

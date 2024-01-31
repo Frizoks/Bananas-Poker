@@ -26,9 +26,9 @@ public class StageAccueil extends Stage implements Initializable
 
 	public void onBtnCreer()
 	{
-		Stage stage = Gestionnaire.creer("creerSalon");
-		if ( stage != null ) stage.show();
 		this.close();
+		Stage stage = Gestionnaire.creer("creerSalon",this);
+		if ( stage != null ) stage.show();
 	}
 
 	public void onBtnRejoindre()

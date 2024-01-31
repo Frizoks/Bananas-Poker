@@ -1,9 +1,6 @@
 package projet.bananaspoker.ihm.stage;
 
-import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import projet.bananaspoker.ihm.PopUp;
 
@@ -16,7 +13,7 @@ public class StageAccueil extends Stage implements Initializable
     public StageAccueil() // fxml -> "accueil"
 	{
 		this.setTitle("Bananas' Poker");
-		this.setMinWidth(700);
+		this.setMinWidth(740);
 		this.setMinHeight(500);
 		this.setResizable(false);
 	}
@@ -29,12 +26,13 @@ public class StageAccueil extends Stage implements Initializable
 
 	public void onBtnCreer()
 	{
-		Stage stage = Gestionnaire.creer("creerSalon",this);
+		Stage stage = Gestionnaire.creer("creerSalon");
 		if ( stage != null ) stage.show();
+		this.close();
 	}
 
 	public void onBtnRejoindre()
 	{
-		PopUp.information("Rejoindre un salon",null,"Tkt mon grand");
+		PopUp.information("Rejoindre un salon",null,"Tkt mon grand").showAndWait();
 	}
 }

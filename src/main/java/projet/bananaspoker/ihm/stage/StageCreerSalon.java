@@ -36,14 +36,17 @@ public class StageCreerSalon extends Stage implements Initializable
         this.spnNbJeton.setValueFactory(valueFactoryNbJetons);
     }
 
-    public void onBtnCreer() throws IOException {
-        Salle salle = new Salle(/*(int)(Math.random()*45000+1030)*/6000,spnNbJoueur.getValue(), txtMdp.getText().isEmpty() ?null:txtMdp.getText(), this.spnNbJeton.getValue());
-        Thread thread = new Thread(salle);
-        thread.start();
+    public void onBtnCreer() {
+        new StageSalleAttente(spnNbJoueur.getValue(), txtMdp.getText().isEmpty() ?null:txtMdp.getText(), this.spnNbJeton.getValue());
+        this.close();
+        Stage stage = Gestionnaire.creer("salleAttente");
+        stage.show();
     }
 
     public void onBtnAnnuler()
     {
         this.close();
+        Stage stage = Gestionnaire.creer("accueil");
+        stage.show();
     }
 }

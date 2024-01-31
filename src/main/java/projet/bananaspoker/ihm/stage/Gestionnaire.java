@@ -16,6 +16,7 @@ public class Gestionnaire
 
 	public static <T> T creer( String fxml, Stage parent ) {
 		URL fxmlUrl = Gestionnaire.class.getResource(String.format("%s.fxml", fxml));
+		System.out.println(fxmlUrl);
 		FXMLLoader fxmlLoader = new FXMLLoader(fxmlUrl);
 
 		try {

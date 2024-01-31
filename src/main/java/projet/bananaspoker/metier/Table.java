@@ -8,7 +8,6 @@ public class Table {
 
     private static int nbManches = 0;
     private int blinde;
-    private Joueur premierJoueur = null;
     private ArrayList<Carte>  pioche;
     private ArrayList<Carte>  jeuTable;
     private ArrayList<Joueur> joueurs;
@@ -37,15 +36,45 @@ public class Table {
         joueursQuiJoue.get(0).enleverJetons(this.blinde);
         joueursQuiJoue.get(joueursQuiJoue.size()-1).enleverJetons(this.blinde * 2);
 
-        while(joueursQuiJoue.size() > 1) {
-
-            System.out.print("luc gros nul, t pas bo");
+        while(joueursQuiJoue.size() > 1)
+        {
+            ArrayList<Integer> mises = new ArrayList<Integer>();
+            mises.add(this.blinde);
+            mises.add(this.blinde * 2);
+            int miseActu = this.blinde * 2;
+            for(int i = 2; i < joueursQuiJoue.size(); i++) {
+                mises.add(0);
+            }
+            int indJoueur = 2;
+            while(!touteMiseEgale(mises))
+            {
+                int indice = 0;
+                int mise = this.salle.demanderMise(j);
+                switch(mise)
+                {
+                    case -1 : joueursQuiJoue.remove(indice);
+                              mises.remove(indice);
+                              break;
+                    case 0  : break;
+                    default : Integer tmp = mises.get(indice);
+                              tmp += mise;
+                              mises.set(indice, tmp);
+                }
+                if(mise != -1) {indJoueur++;}
+                indJoueur = indJoueur % joueursQuiJoue.size();
+            }
+            this.jeuTable.add(this.pioche.get((int)(Math.random() * this.pioche.size())));
 
         }
 
         joueurs.add(joueurs.remove(0));
     }
 
+    public boolean touteMiseEgale(ArrayList<Integer> mises) {
+        int val = mises.get(0);
+        for (Integer i : mises) {if(i != val) {return false;}}
+        return true;
+    }
 
     /*
      ********************

@@ -30,9 +30,7 @@ public class Salle implements Runnable {
 
             while (lstConnections.size() < nbJoueursTot) {
                 Socket clientSocket = serverSocket.accept();
-                GerantDeJoueur gdj = new GerantDeJoueur(clientSocket,this);
-                Thread tgdc = new Thread(gdj);
-                tgdc.start();
+                System.out.println(clientSocket);
             }
 
             /*while ( !partieGagne ) {

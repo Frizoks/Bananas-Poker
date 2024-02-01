@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+
+<Pane minHeight="1000.0" minWidth="1200.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projet.bananaspoker.ihm.stage.StageTest">
+   <children>
+      <ImageView fitHeight="261.0" fitWidth="446.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/fondTable.png" />
+         </image>
+      </ImageView>
+   </children>
+</Pane>

@@ -35,4 +35,10 @@ public class StageAccueil extends Stage implements Initializable
 	{
 		PopUp.information("Rejoindre un salon",null,"Tkt mon grand").showAndWait();
 	}
+	public void onBtnTest()
+	{
+		this.close();
+		Stage stage = Gestionnaire.creer("test",this);
+		if ( stage != null ) stage.show();
+	}
 }

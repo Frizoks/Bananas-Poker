@@ -39,9 +39,9 @@ public class Table {
         while(joueursQuiJoue.size() > 1)
         {
             ArrayList<Integer> mises = new ArrayList<Integer>();
+            int miseTotal = 0;
             mises.add(this.blinde);
             mises.add(this.blinde * 2);
-            int miseActu = this.blinde * 2;
             for(int i = 2; i < joueursQuiJoue.size(); i++) {
                 mises.add(0);
             }
@@ -49,7 +49,7 @@ public class Table {
             while(!touteMiseEgale(mises))
             {
                 int indice = 0;
-                int mise = this.salle.demanderMise(j);
+                int mise = 0;//this.salle.demanderMise(joueursQuiJoue.get(indice), maxiAl(mises) - mises.get(indice));
                 switch(mise)
                 {
                     case -1 : joueursQuiJoue.remove(indice);
@@ -63,8 +63,9 @@ public class Table {
                 if(mise != -1) {indJoueur++;}
                 indJoueur = indJoueur % joueursQuiJoue.size();
             }
-            this.jeuTable.add(this.pioche.get((int)(Math.random() * this.pioche.size())));
-
+            if(this.jeuTable.size() < 5) {this.jeuTable.add(this.pioche.get((int)(Math.random() * this.pioche.size())));}
+            miseTotal += totalAl(mises);
+            mises.clear();
         }
 
         joueurs.add(joueurs.remove(0));
@@ -74,6 +75,18 @@ public class Table {
         int val = mises.get(0);
         for (Integer i : mises) {if(i != val) {return false;}}
         return true;
+    }
+
+    public int maxiAl(ArrayList<Integer> mises) {
+        int val = mises.get(0);
+        for (Integer i : mises) {if(i > val) {val = i;}}
+        return val;
+    }
+
+    public int totalAl(ArrayList<Integer> mises) {
+        int val = 0;
+        for (Integer i : mises) {val += i;}
+        return val;
     }
 
     /*

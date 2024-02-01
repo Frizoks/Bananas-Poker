@@ -33,7 +33,9 @@ public class StageAccueil extends Stage implements Initializable
 
 	public void onBtnRejoindre()
 	{
-		PopUp.information("Rejoindre un salon",null,"Tkt mon grand").showAndWait();
+		Stage stage = Gestionnaire.creer("connection");
+		stage.show();
+		this.close();
 	}
 	public void onBtnTest()
 	{

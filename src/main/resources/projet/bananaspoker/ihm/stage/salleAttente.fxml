@@ -8,7 +8,7 @@
 
 <Pane prefHeight="350.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projet.bananaspoker.ihm.stage.StageSalleAttente">
    <children>
-      <ImageView fitHeight="350.0" fitWidth="607.0" pickOnBounds="true">
+      <ImageView fitHeight="364.0" fitWidth="619.0" layoutX="-12.0" layoutY="-8.0" pickOnBounds="true">
          <image>
             <Image url="@../images/fondTable.png" />
          </image>

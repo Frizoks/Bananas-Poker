@@ -11,4 +11,5 @@ module projet.bananaspoker {
 	exports projet.bananaspoker;
 	exports projet.bananaspoker.ihm;
 	exports projet.bananaspoker.ihm.stage;
+	exports projet.bananaspoker.metier;
 }

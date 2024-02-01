@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="280.0" prefWidth="490.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projet.bananaspoker.ihm.stage.StageConnection">
+   <children>
+      <ImageView fitHeight="297.0" fitWidth="511.0" layoutX="-18.0" layoutY="-14.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/fondTable.png" />
+         </image></ImageView>
+      <GridPane layoutX="64.0" layoutY="65.0" prefHeight="161.0" prefWidth="358.0">
+         <columnConstraints>
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="226.2" minWidth="10.0" prefWidth="141.2" />
+            <ColumnConstraints hgrow="SOMETIMES" maxWidth="216.0" minWidth="10.0" prefWidth="216.0" />
+         </columnConstraints>
+         <rowConstraints>
+            <RowConstraints maxHeight="86.2" minHeight="10.0" prefHeight="72.2" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="95.60000000000001" minHeight="10.0" prefHeight="60.60000000000001" vgrow="SOMETIMES" />
+            <RowConstraints maxHeight="95.60000000000001" minHeight="10.0" prefHeight="60.60000000000001" vgrow="SOMETIMES" />
+         </rowConstraints>
+         <children>
+            <Label prefHeight="35.0" prefWidth="125.0" text="N° de Salle" textFill="WHITE">
+               <font>
+                  <Font name="System Bold Italic" size="24.0" />
+               </font>
+            </Label>
+            <TextField fx:id="txtfNSalle" prefHeight="25.0" prefWidth="207.0" GridPane.columnIndex="1" />
+            <Label layoutX="10.0" layoutY="28.0" prefHeight="35.0" prefWidth="125.0" text="Nom" textFill="WHITE" GridPane.rowIndex="1">
+               <font>
+                  <Font name="System Bold Italic" size="24.0" />
+               </font>
+            </Label>
+             <TextField fx:id="txtfNomJ" prefHeight="25.0" prefWidth="207.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+            <Button mnemonicParsing="false" onAction="#onBtnAnnuler" text="Annuler" GridPane.rowIndex="2" />
+            <Button mnemonicParsing="false" onAction="#onBtnValider" text="Entrer" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+         </children>
+      </GridPane>
+   </children>
+</Pane>

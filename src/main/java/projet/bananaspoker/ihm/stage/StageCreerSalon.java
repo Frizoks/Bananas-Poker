@@ -4,6 +4,9 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
+import projet.bananaspoker.metier.Salle;
+
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -35,10 +38,10 @@ public class StageCreerSalon extends Stage implements Initializable
     }
 
     public void onBtnCreer() {
-        Stage stage = Gestionnaire.creer("salleAttente");
-        StageSalleAttente.creerSalleAttente(spnNbJoueur.getValue(), txtMdp.getText().isEmpty() ?null:txtMdp.getText(), this.spnNbJeton.getValue());
-        this.close();
+        StageConnection stage = Gestionnaire.creer("connection");
+        stage.setValues(spnNbJoueur.getValue(), txtMdp.getText().isEmpty() ? null : txtMdp.getText(), this.spnNbJeton.getValue());
         stage.show();
+        this.close();
     }
 
     public void onBtnAnnuler()

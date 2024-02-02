@@ -59,6 +59,7 @@ public class StageSalleAttente extends Stage implements Initializable {
 
     public void actualiser( )
     {
+        grdTabJoueur.getChildren().clear();
         GridPane grdPaneTemp = new GridPane();
 
         Image pathImgHomme = new Image(PokerApplication.class.getResourceAsStream("images/icons/ppHomme.png"));

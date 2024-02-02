@@ -117,6 +117,7 @@ public class Salle {
                     String[] donnees = messageFromServer.split(":");
                     Joueur jATraiter = new Joueur(donnees[1],Integer.parseInt(donnees[2]));
                     if ( donnees[0].equals("C") ) {
+                        System.out.println("j'ajoute un mec");
                         boolean estPresent = false;
                         for ( Joueur j : lstJoueurs) {
                             if (j.getNomJoueur().equals(jATraiter.getNomJoueur())) {

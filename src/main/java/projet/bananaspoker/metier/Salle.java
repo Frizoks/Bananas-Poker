@@ -20,6 +20,7 @@ public class Salle {
     private final int nbJoueursTot;
     private final ArrayList<Joueur> lstConnections;
     private StageSalleAttente salleAttente;
+    private Thread client;
 
     public Salle(int port, int nbJoueursTot, String password, int nbJetonsDep) {
         this.port = port;
@@ -78,7 +79,7 @@ public class Salle {
     }
 
     public void connection(int port, String nomJ) {
-        Thread client = new Thread(() -> {
+        this.client = new Thread(() -> {
 			Socket socket = null;
 			try {
 				socket = new Socket("PC_Luc", port);
@@ -93,8 +94,10 @@ public class Salle {
                 String messageFromServer;
                 while ((messageFromServer = entree.readLine()) != null) {
                     String[] donnees = messageFromServer.split(":");
-                    if ( donnees[0].equals("C") )
+                    if ( donnees[0].equals("C") ) {
+                        this.lstConnections.add(new Joueur(donnees[1],Integer.parseInt(donnees[2])));
                         Platform.runLater(() -> salleAttente.actualiser());
+                    }
                     else if ( donnees[0].equals("D") )
                         Platform.runLater(() -> salleAttente.actualiser());
                 }
@@ -110,6 +113,7 @@ public class Salle {
         for ( Joueur j : lstConnections )
             if ( j.getNomJoueur().equals(nomJ) )
                 j.getSortie().println("D:" + j);
+        this.client.interrupt();
     }
 
 

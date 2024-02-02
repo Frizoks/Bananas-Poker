@@ -43,32 +43,34 @@ public class Salle {
                     Socket clientSocket = serverSocket.accept();
                     BufferedReader entreeTemp = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
-                    String[] donnees = entreeTemp.readLine().split(":");
-                    Joueur j = new Joueur(donnees[0],Integer.parseInt(donnees[1]));
-                    j.setPorts(clientSocket);
-
-                    this.lstConnections.add( j );
-                    for ( Joueur joueur : this.lstConnections )
-                    {
-                        for ( Joueur donneesJ : this.lstConnections )
-                            joueur.getSortie().println("C:" + donneesJ);
-                    }
-
-
-                    Thread detecteurDeco = new Thread(() -> {
+                    Thread gerant = new Thread(() -> {
                         try {
-                            while ( this.salleAttente.isShowing() ) {
-                                Thread.sleep(100);
+                            String[] donnees = entreeTemp.readLine().split(":");
+                            Joueur j = new Joueur(donnees[0],Integer.parseInt(donnees[1]));
+
+                            if ( donnees[0].equals("C") ){
+                                j.setPorts(clientSocket);
+
+                                this.lstConnections.add( j );
+                                for ( Joueur joueur : this.lstConnections )
+                                {
+                                    for ( Joueur donneesJ : this.lstConnections )
+                                        joueur.getSortie().println("C:" + donneesJ);
+                                }
                             }
-                            this.lstConnections.remove(j);
-                            for ( Joueur joueur : lstConnections )
+                            else if ( donnees[0].equals("D") )
                             {
-                                joueur.getSortie().println("D:" + j);
+                                lstConnections.removeIf(jPot -> jPot.getNomJoueur().equals(donnees[1]));
+                                for ( Joueur joueur : this.lstConnections )
+                                {
+                                    for ( Joueur donneesJ : this.lstConnections )
+                                        joueur.getSortie().println("D:" + donneesJ);
+                                }
                             }
-                            clientSocket.close();
-                        } catch (InterruptedException | IOException ignored) { }
+
+                        } catch (IOException ignored) { }
                     });
-                    detecteurDeco.start();
+                    gerant.start();
                 }
 
             /*while ( !partieGagne ) {
@@ -92,7 +94,17 @@ public class Salle {
 
                 Joueur moi = new Joueur(nomJ,this.nbJetonsDep);
                 Platform.runLater(() -> salleAttente.actualiser());
-                sortie.println(moi);
+                sortie.println("C:" + moi);
+
+                Thread detecteurDeco = new Thread(() -> {
+                    try {
+                        while ( this.salleAttente.isShowing() ) {
+                            Thread.sleep(100);
+                        }
+                        sortie.println("D:0");
+                    } catch (InterruptedException ignored) { }
+                });
+                detecteurDeco.start();
 
                 // Boucle pour lire et afficher les messages du serveur en continu
                 String messageFromServer;
@@ -124,14 +136,6 @@ public class Salle {
         gerant.start();
         this.salleAttente.show();
     }
-
-    public void deconnection(String nomJ) throws IOException {
-        for ( Joueur j : lstConnections )
-            if ( j.getNomJoueur().equals(nomJ) )
-                j.getSortie().println("D:" + j);
-        this.client.close();
-    }
-
 
     public String getMotDePasse() { return this.password; }
     public int getNbJetonsDep() { return this.nbJetonsDep; }

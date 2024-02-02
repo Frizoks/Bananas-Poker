@@ -97,7 +97,7 @@ public class Salle {
     public void connection(int port, String nomJ) {
         Thread gerant = new Thread(() -> {
 			try {
-				this.client = new Socket("c-di-722-13", port);
+				this.client = new Socket("PC_Luc", port);
                 BufferedReader entree = new BufferedReader(new InputStreamReader(this.client.getInputStream()));
                 PrintWriter    sortie = new PrintWriter(this.client.getOutputStream(), true);
 

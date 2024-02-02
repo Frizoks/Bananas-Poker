@@ -34,7 +34,7 @@ public class Table {
         for(Joueur j : joueursQuiJoue) {j.addCarteMainJoueur(this.pioche.remove(0));}
         for(Joueur j : joueursQuiJoue) {j.addCarteMainJoueur(this.pioche.remove(0));}
         ArrayList<Joueur> allIn = new ArrayList<Joueur>();
-        //this.salle.afficherCarte();
+        //this.salle.afficherCarteJoueurs();
 
         //debut de la manche et repartition de la blinde
         ArrayList<Integer> mises = new ArrayList<Integer>();
@@ -65,7 +65,7 @@ public class Table {
             }
             if(this.jeuTable.size() < 5) {
                 this.jeuTable.add(this.pioche.remove(0));
-                //this.salle.envoyerCarte(this.jeuTable.get(this.jeuTable.size() - 1));
+                //this.salle.afficherCarteJeu(this.jeuTable.get(this.jeuTable.size() - 1));
             }
             else if(this.jeuTable.size() == 5) {break;}
 

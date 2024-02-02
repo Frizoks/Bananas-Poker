@@ -131,7 +131,9 @@ public class Salle {
                     }
                 }
                 System.out.println("c'est la fin");
-			} catch (IOException ignored) { }
+			} catch (IOException e) {
+                System.out.println(e);
+            }
         });
         gerant.start();
         this.salleAttente.show();

@@ -44,33 +44,32 @@ public class Salle {
                     BufferedReader entreeTemp = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
                     Thread gerant = new Thread(() -> {
-                        try {
-                            String[] donnees = entreeTemp.readLine().split(":");
-                            Joueur j = new Joueur(donnees[1],this.nbJetonsDep);
+                        while (!clientSocket.isClosed()){
+                            try {
+                                String[] donnees = entreeTemp.readLine().split(":");
+                                Joueur j = new Joueur(donnees[1], this.nbJetonsDep);
 
-                            if ( donnees[0].equals("C") ){
-                                j.setPorts(clientSocket);
+                                if (donnees[0].equals("C")) {
+                                    j.setPorts(clientSocket);
 
-                                this.lstConnections.add( j );
-                                System.out.println(this.lstConnections);
-                                for ( Joueur joueur : this.lstConnections )
-                                {
-                                    for ( Joueur donneesJ : this.lstConnections )
-                                        joueur.getSortie().println("C:" + donneesJ);
+                                    this.lstConnections.add(j);
+                                    System.out.println(this.lstConnections);
+                                    for (Joueur joueur : this.lstConnections) {
+                                        for (Joueur donneesJ : this.lstConnections)
+                                            joueur.getSortie().println("C:" + donneesJ);
+                                    }
+                                } else if (donnees[0].equals("D")) {
+                                    System.out.println("Quelqu'un part");
+                                    lstConnections.removeIf(jPot -> jPot.getNomJoueur().equals(donnees[1]));
+                                    for (Joueur joueur : this.lstConnections) {
+                                        for (Joueur donneesJ : this.lstConnections)
+                                            joueur.getSortie().println("D:" + donneesJ);
+                                    }
                                 }
-                            }
-                            else if ( donnees[0].equals("D") )
-                            {
-                                System.out.println("Quelqu'un part");
-                                lstConnections.removeIf(jPot -> jPot.getNomJoueur().equals(donnees[1]));
-                                for ( Joueur joueur : this.lstConnections )
-                                {
-                                    for ( Joueur donneesJ : this.lstConnections )
-                                        joueur.getSortie().println("D:" + donneesJ);
-                                }
-                            }
 
-                        } catch (IOException ignored) { }
+                            } catch (IOException ignored) {
+                            }
+                        }
                     });
                     gerant.start();
                 }
@@ -98,18 +97,6 @@ public class Salle {
                 Platform.runLater(() -> salleAttente.actualiser());
                 sortie.println("C:" + moi);
 
-                Thread detecteurDeco = new Thread(() -> {
-                    try {
-                        while ( this.salleAttente.isShowing() ) {
-                            Thread.sleep(100);
-                        }
-                        sortie.println("D:" + moi);
-                    } catch (InterruptedException e) {
-                        System.out.println(e);
-                    }
-                });
-                detecteurDeco.start();
-
                 // Boucle pour lire et afficher les messages du serveur en continu
                 String messageFromServer;
                 while ((messageFromServer = entree.readLine()) != null) {
@@ -133,9 +120,8 @@ public class Salle {
                         Platform.runLater(() -> salleAttente.actualiser());
                     }
                 }
-			} catch (IOException e) {
-                System.out.println(e);
-			}
+                System.out.println("c'est la fin");
+			} catch (IOException ignored) { }
         });
         gerant.start();
         this.salleAttente.show();

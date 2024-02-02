@@ -46,7 +46,7 @@ public class Salle {
                     Thread gerant = new Thread(() -> {
                         try {
                             String[] donnees = entreeTemp.readLine().split(":");
-                            Joueur j = new Joueur(donnees[0],Integer.parseInt(donnees[1]));
+                            Joueur j = new Joueur(donnees[1],Integer.parseInt(donnees[2]));
 
                             if ( donnees[0].equals("C") ){
                                 j.setPorts(clientSocket);

@@ -104,7 +104,9 @@ public class Salle {
                             Thread.sleep(100);
                         }
                         sortie.println("D:" + moi);
-                    } catch (InterruptedException ignored) { }
+                    } catch (InterruptedException e) {
+                        System.out.println(e);
+                    }
                 });
                 detecteurDeco.start();
 

@@ -272,8 +272,9 @@ public class Combinaison
     	for (int cpt = 0; cpt < lstJoueur.size()-1; cpt++)
     	{
     		String res = departageJoueurs(lstJoueur.get(cpt), lstJoueur.get(cpt+1));
-    		if (res.equals(lstJoueur.get(cpt).getNomJoueur()))
+    		//if (res.equals(lstJoueur.get(cpt).getNomJoueur()))
     	}
+        return null;
     }
 
     private String departageJoueurs (Joueur j1, Joueur j2)

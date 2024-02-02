@@ -71,7 +71,9 @@ public class Salle {
                                 }
                             }
 
-                        } catch (IOException ignored) { }
+                        } catch (IOException e) {
+                            System.out.println(e);
+                        }
                     });
                     gerant.start();
                 }
@@ -104,7 +106,6 @@ public class Salle {
                         while ( this.salleAttente.isShowing() ) {
                             Thread.sleep(100);
                         }
-                        System.out.println("La fenetre est fermé");
                         sortie.println("D:" + moi);
                     } catch (InterruptedException ignored) { }
                 });
@@ -147,5 +148,5 @@ public class Salle {
     public int getNbJetonsDep() { return this.nbJetonsDep; }
     public int getNbJoueursTot() { return this.nbJoueursTot; }
 
-    public ArrayList<Joueur> getConnections() { return this.lstConnections; }
+    public ArrayList<Joueur> getJoueursEnLigne() { return this.lstJoueurs; }
 }

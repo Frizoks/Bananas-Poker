@@ -60,6 +60,7 @@ public class Salle {
                             }
                             else if ( donnees[0].equals("D") )
                             {
+                                System.out.println("Quelqu'un part");
                                 lstConnections.removeIf(jPot -> jPot.getNomJoueur().equals(donnees[1]));
                                 for ( Joueur joueur : this.lstConnections )
                                 {
@@ -101,6 +102,7 @@ public class Salle {
                         while ( this.salleAttente.isShowing() ) {
                             Thread.sleep(100);
                         }
+                        System.out.println("La fenetre est fermé");
                         sortie.println("D:0");
                     } catch (InterruptedException ignored) { }
                 });
@@ -109,6 +111,7 @@ public class Salle {
                 // Boucle pour lire et afficher les messages du serveur en continu
                 String messageFromServer;
                 while ((messageFromServer = entree.readLine()) != null) {
+                    System.out.println("Le client a un message" + messageFromServer);
                     String[] donnees = messageFromServer.split(":");
                     Joueur jATraiter = new Joueur(donnees[1],Integer.parseInt(donnees[2]));
                     if ( donnees[0].equals("C") ) {

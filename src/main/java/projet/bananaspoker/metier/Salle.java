@@ -39,7 +39,7 @@ public class Salle {
             try (ServerSocket serverSocket = new ServerSocket(port)) {
                 System.out.println("Server is running on port " + port);
 
-                while (lstConnections.size() < nbJoueursTot) {
+                while (this.lstConnections.size() < nbJoueursTot) {
                     Socket clientSocket = serverSocket.accept();
                     BufferedReader entreeTemp = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
@@ -48,25 +48,25 @@ public class Salle {
                     j.setPorts(clientSocket);
 
                     this.lstConnections.add( j );
-                    for ( Joueur joueur : lstConnections )
+                    for ( Joueur joueur : this.lstConnections )
                     {
-                        for ( Joueur donneesJ : lstConnections )
+                        for ( Joueur donneesJ : this.lstConnections )
                             joueur.getSortie().println("C:" + donneesJ);
                     }
 
 
                     Thread detecteurDeco = new Thread(() -> {
                         try {
-                            while (entreeTemp!=null && entreeTemp.readLine()!=null ) {
+                            while ( this.salleAttente.isShowing() ) {
                                 Thread.sleep(100);
                             }
-                        } catch (IOException | InterruptedException e) {
                             this.lstConnections.remove(j);
                             for ( Joueur joueur : lstConnections )
                             {
                                 joueur.getSortie().println("D:" + j);
                             }
-                        }
+                            clientSocket.close();
+                        } catch (InterruptedException | IOException ignored) { }
                     });
                     detecteurDeco.start();
                 }

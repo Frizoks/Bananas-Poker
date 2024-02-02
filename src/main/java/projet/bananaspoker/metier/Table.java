@@ -73,11 +73,14 @@ public class Table {
         }
         else {
             ArrayList<Joueur> verifCombi = (ArrayList<Joueur>) joueurs.clone();
-            for (Joueur j : allIn) {
-                verifCombi.add(j);
+            for (Joueur j : allIn) {verifCombi.add(j);}
+            Joueur j = Combinaison.quiGagne(verifCombi);
+            if(allIn.contains(j)) {
+
             }
-            //Joueur j = Combinaison.quiGagne(verifCombi);
-            //j.ajouterJetons(totalAl(mises));
+            else {
+                j.ajouterJetons(totalAl(mises));
+            }
         }
     }
 

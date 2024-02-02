@@ -44,7 +44,7 @@ public class Salle {
                     BufferedReader entreeTemp = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
 
                     Thread gerant = new Thread(() -> {
-                        while (!clientSocket.isClosed()){
+                        while (true){
                             try {
                                 String[] donnees = entreeTemp.readLine().split(":");
                                 Joueur j = new Joueur(donnees[1], this.nbJetonsDep);
@@ -58,16 +58,22 @@ public class Salle {
                                         for (Joueur donneesJ : this.lstConnections)
                                             joueur.getSortie().println("C:" + donneesJ);
                                     }
-                                } else if (donnees[0].equals("D")) {
-                                    System.out.println("Quelqu'un part");
-                                    lstConnections.removeIf(jPot -> jPot.getNomJoueur().equals(donnees[1]));
+                                }
+                            } catch (Exception e) {
+                                System.out.println("Quelqu'un part");
+                                Joueur jAEnlever = null;
+                                for (Joueur j : this.lstConnections ) {
+                                    try {
+                                        j.getEntree().ready();
+                                    } catch (IOException ex) { jAEnlever = j; }
+                                }
+                                if (jAEnlever!=null) {
+                                    lstConnections.remove(jAEnlever);
                                     for (Joueur joueur : this.lstConnections) {
                                         for (Joueur donneesJ : this.lstConnections)
                                             joueur.getSortie().println("D:" + donneesJ);
                                     }
                                 }
-
-                            } catch (IOException ignored) {
                             }
                         }
                     });

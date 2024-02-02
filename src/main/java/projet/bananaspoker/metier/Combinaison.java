@@ -265,9 +265,17 @@ public class Combinaison
         return combJoueur;
     }
 
-    public Joueur quiGagne (ArrayList<Joueur> lstJoueur)
+    public static Joueur quiGagne (ArrayList<Joueur> lstJoueur)
     {
-		Joueur gagnant = lstJoueur.get(0);
+		ArrayList<Carte> pireCombinaisonPoker = new ArrayList<>();
+		pireCombinaisonPoker.add(new Carte ('♥',2, "2 de coeur"));
+		pireCombinaisonPoker.add(new Carte ('♦',3, "3 de carreau"));
+		pireCombinaisonPoker.add(new Carte ('♥',5, "5 de coeur"));
+		pireCombinaisonPoker.add(new Carte ('♣',6, "6 de trefle"));
+		pireCombinaisonPoker.add(new Carte ('♦',7, "7 de carreau"));
+
+		Joueur gagnant = new Joueur("@#~¹[{#ħn€ßł¢æ",1);
+		gagnant.setCombinaisonJoueur(pireCombinaisonPoker);
 
 		for (int cpt = 1; cpt < lstJoueur.size(); cpt++)
 		{
@@ -276,10 +284,12 @@ public class Combinaison
 			if (res.equals(lstJoueur.get(cpt).getNomJoueur()))
 				gagnant = lstJoueur.get(cpt);
 		}
+		if (gagnant.getNomJoueur().equals("@#~¹[{#ħn€ßł¢æ"))
+			return null;
 		return gagnant;
     }
 
-    private String departageJoueurs (Joueur j1, Joueur j2)
+    private static String departageJoueurs(Joueur j1, Joueur j2)
     {
         ArrayList<Carte> combJ1 = j1.getCombinaisonJoueur();
         ArrayList<Carte> combJ2 = j2.getCombinaisonJoueur();
@@ -383,7 +393,7 @@ public class Combinaison
         return departageCarteHaute(combJ1, combJ2, j1, j2);
     }
 
-    private String departageCarteHaute(ArrayList<Carte> combJ1, ArrayList<Carte> combJ2, Joueur j1, Joueur j2)
+    private static String departageCarteHaute(ArrayList<Carte> combJ1, ArrayList<Carte> combJ2, Joueur j1, Joueur j2)
     {
         if (!combJ1.isEmpty())
         {
@@ -409,7 +419,7 @@ public class Combinaison
         }
     }
 
-    private String departageCarteHauteCarre(Joueur j1, Joueur j2)
+    private static String departageCarteHauteCarre(Joueur j1, Joueur j2)
     {
         ArrayList<Carte> combJ1 = j1.getCombinaisonJoueur();
         ArrayList<Carte> combJ2 = j2.getCombinaisonJoueur();
@@ -427,7 +437,7 @@ public class Combinaison
             return "Egalité";
     }
 
-    private String departageDoublePaire(ArrayList<Carte> combJ1, ArrayList<Carte> combJ2, Joueur j1, Joueur j2)
+    private static String departageDoublePaire(ArrayList<Carte> combJ1, ArrayList<Carte> combJ2, Joueur j1, Joueur j2)
     {
         int valP1J1 = 0;
         int valP2J1 = 0;

@@ -47,7 +47,6 @@ public class Salle {
                         try {
                             String[] donnees = entreeTemp.readLine().split(":");
                             Joueur j = new Joueur(donnees[1],this.nbJetonsDep);
-                            System.out.println("Le serveur a recu un message");
 
                             if ( donnees[0].equals("C") ){
                                 j.setPorts(clientSocket);
@@ -71,9 +70,7 @@ public class Salle {
                                 }
                             }
 
-                        } catch (IOException e) {
-                            System.out.println(e);
-                        }
+                        } catch (IOException ignored) { }
                     });
                     gerant.start();
                 }
@@ -114,11 +111,9 @@ public class Salle {
                 // Boucle pour lire et afficher les messages du serveur en continu
                 String messageFromServer;
                 while ((messageFromServer = entree.readLine()) != null) {
-                    System.out.println("Le client a un message" + messageFromServer);
                     String[] donnees = messageFromServer.split(":");
                     Joueur jATraiter = new Joueur(donnees[1],Integer.parseInt(donnees[2]));
                     if ( donnees[0].equals("C") ) {
-                        System.out.println("j'ajoute un mec");
                         boolean estPresent = false;
                         for ( Joueur j : lstJoueurs) {
                             if (j.getNomJoueur().equals(jATraiter.getNomJoueur())) {
@@ -149,4 +144,6 @@ public class Salle {
     public int getNbJoueursTot() { return this.nbJoueursTot; }
 
     public ArrayList<Joueur> getJoueursEnLigne() { return this.lstJoueurs; }
+
+    public AutoCloseable getClient() { return this.client; }
 }

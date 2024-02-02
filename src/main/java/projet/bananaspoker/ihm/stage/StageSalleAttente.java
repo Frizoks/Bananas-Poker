@@ -48,7 +48,9 @@ public class StageSalleAttente extends Stage implements Initializable {
         this.setOnCloseRequest(event -> {
             if ( salle.getNbJoueursTot() < this.lstLabel.size()){
                 serveur.interrupt();
-                salle.deconnection(lstLabel.get(0).getText());
+                try {
+                    salle.deconnection(lstLabel.get(0).getText());
+                } catch (IOException ignored) { }
             }
             Stage stage = Gestionnaire.creer("accueil");
             stage.show();

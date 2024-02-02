@@ -20,7 +20,7 @@ public class Salle {
     private final int nbJoueursTot;
     private final ArrayList<Joueur> lstConnections;
     private StageSalleAttente salleAttente;
-    private Thread client;
+    private Socket client;
 
     public Salle(int port, int nbJoueursTot, String password, int nbJetonsDep) {
         this.port = port;
@@ -55,12 +55,15 @@ public class Salle {
 
                     Thread detecteurDeco = new Thread(() -> {
                         try {
-                            String[] deco = entreeTemp.readLine().split(":");
-                            if ( deco[0].equals("D") )
-                                this.lstConnections.remove(j);
-                            for ( Joueur joueur : lstConnections )
-                            {
-                                joueur.getSortie().println("D:" + j);
+                            while (true){
+                                if ( entreeTemp==null ) { return; }
+                                String[] deco = entreeTemp.readLine().split(":");
+                                if ( deco[0].equals("D") )
+                                    this.lstConnections.remove(j);
+                                for ( Joueur joueur : lstConnections )
+                                {
+                                    joueur.getSortie().println("D:" + j);
+                                }
                             }
                         } catch (IOException e) { this.lstConnections.remove(j); }
                     });
@@ -74,16 +77,16 @@ public class Salle {
 
                 System.out.println("Game finish. Server is closing.");
 			} catch (IOException e) {
-                e.printStackTrace();
+                System.out.println("tkt");
             }
         });
     }
 
     public void connection(int port, String nomJ) {
-        this.client = new Thread(() -> {
+        Thread gerant = new Thread(() -> {
 			Socket socket = null;
 			try {
-				socket = new Socket("c-di-722-13", port);
+				this.client = new Socket("c-di-722-13", port);
                 BufferedReader entree = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 PrintWriter    sortie = new PrintWriter(socket.getOutputStream(), true);
 
@@ -116,15 +119,15 @@ public class Salle {
                 System.out.println(e);
 			}
         });
-        client.start();
+        gerant.start();
         this.salleAttente.show();
     }
 
-    public void deconnection(String nomJ) {
+    public void deconnection(String nomJ) throws IOException {
         for ( Joueur j : lstConnections )
             if ( j.getNomJoueur().equals(nomJ) )
                 j.getSortie().println("D:" + j);
-        this.client.interrupt();
+        this.client.close();
     }
 
 

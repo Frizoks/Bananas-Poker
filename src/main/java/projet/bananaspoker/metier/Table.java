@@ -27,6 +27,9 @@ public class Table {
     }
 
     public void jouer() {
+        int decalage = Table.nbManches % joueurs.size();
+        decalage(joueurs, decalage);
+
         for(Joueur j : joueurs) {j.addCarteMainJoueur(this.pioche.remove(0));}
         for(Joueur j : joueurs) {j.addCarteMainJoueur(this.pioche.remove(0));}
         ArrayList<Joueur> allIn = new ArrayList<Joueur>();
@@ -84,6 +87,12 @@ public class Table {
         int val = 0;
         for (Integer i : mises) {val += i;}
         return val;
+    }
+
+    public void decalage(ArrayList<Joueur> al, int decalage) {
+        for (int i = 0; i < decalage; i++) {
+            al.add(al.remove(0));
+        }
     }
 
     /*

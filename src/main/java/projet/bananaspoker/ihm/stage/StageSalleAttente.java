@@ -46,7 +46,11 @@ public class StageSalleAttente extends Stage implements Initializable {
         cptCol = cptLig = 0;
 
         this.setOnCloseRequest(event -> {
-            salle.getClient().close();
+            try {
+                salle.getClient().close();
+            } catch (Exception e) {
+                System.out.println(e);
+            }
             Stage stage = Gestionnaire.creer("accueil");
             stage.show();
         });

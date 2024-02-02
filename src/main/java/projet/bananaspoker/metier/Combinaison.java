@@ -8,7 +8,6 @@ public class Combinaison
     private static ArrayList<Carte> main;
     private static char             couleurCarte;
     private static int              valeurCarte;
-    private static int              carteHauteQuinte;
 
     public static String getCombinaison (ArrayList<Carte> main)
     {
@@ -85,7 +84,6 @@ public class Combinaison
                 cptQuinte++;
             }
         }
-        carteHauteQuinte = valeursCartes.get(valeursCartes.size()-1);
         return cptQuinte >= 4;
     }
 
@@ -269,12 +267,16 @@ public class Combinaison
 
     public Joueur quiGagne (ArrayList<Joueur> lstJoueur)
     {
-    	for (int cpt = 0; cpt < lstJoueur.size()-1; cpt++)
-    	{
-    		String res = departageJoueurs(lstJoueur.get(cpt), lstJoueur.get(cpt+1));
-    		//if (res.equals(lstJoueur.get(cpt).getNomJoueur()))
-    	}
-        return null;
+		Joueur gagnant = lstJoueur.get(0);
+
+		for (int cpt = 1; cpt < lstJoueur.size(); cpt++)
+		{
+			String res = departageJoueurs(gagnant, lstJoueur.get(cpt));
+
+			if (res.equals(lstJoueur.get(cpt).getNomJoueur()))
+				gagnant = lstJoueur.get(cpt);
+		}
+		return gagnant;
     }
 
     private String departageJoueurs (Joueur j1, Joueur j2)
@@ -284,25 +286,25 @@ public class Combinaison
 
         //quinte flush royale
         if (estQuinteFlushRoyale(combJ1) && !estQuinteFlushRoyale(combJ2))
-            return j1.getNomJoueur() + " gagne !";
+            return j1.getNomJoueur();
         if (estQuinteFlushRoyale(combJ2) && !estQuinteFlushRoyale(combJ1))
-            return j2.getNomJoueur() + " gagne !";
+            return j2.getNomJoueur();
         if (estQuinteFlushRoyale(combJ1) &&  estQuinteFlushRoyale(combJ2))
             return "Egalite";
 
         //quinte flush
         if (estQuinteFlush(combJ1) && !estQuinteFlush(combJ2))
-            return j1.getNomJoueur() + " gagne !";
+            return j1.getNomJoueur();
         if (estQuinteFlush(combJ2) && !estQuinteFlush(combJ1))
-            return j2.getNomJoueur() + " gagne !";
+            return j2.getNomJoueur();
         if (estQuinteFlush(combJ1) &&  estQuinteFlush(combJ2))
             return departageCarteHaute(combJ1, combJ2, j1, j2);
 
         // carre (paire 4)
         if ( (estPaire(combJ1) && nbCarteIdentique(valeurCarte) == 4) && !(estPaire(combJ2) && nbCarteIdentique(valeurCarte) == 4) )
-            return j1.getNomJoueur() + " gagne !";
+            return j1.getNomJoueur();
         if ( (estPaire(combJ2) && nbCarteIdentique(valeurCarte) == 4) && !(estPaire(combJ1) && nbCarteIdentique(valeurCarte) == 4) )
-            return j2.getNomJoueur() + " gagne !";
+            return j2.getNomJoueur();
         if ( (estPaire(combJ1) && nbCarteIdentique(valeurCarte) == 4) &&  (estPaire(combJ2) && nbCarteIdentique(valeurCarte) == 4) )
             return departageCarteHauteCarre(j1, j2);
 
@@ -331,38 +333,38 @@ public class Combinaison
         if (valP1J1 != 0 && valP1J2 != 0 && valP2J1 != 0 && valP2J2 != 0)
         {
             if (valP1J1 > valP1J2)
-                return j1.getNomJoueur() + " gagne !";
+                return j1.getNomJoueur();
             else if (valP1J2 > valP1J1)
-                return j2.getNomJoueur() + " gagne !";
+                return j2.getNomJoueur();
             else if (valP2J1 > valP2J2)
-                return j1.getNomJoueur() + " gagne !";
+                return j1.getNomJoueur();
             else if (valP2J2 > valP2J1)
-                return j2.getNomJoueur() + " gagne !";
+                return j2.getNomJoueur();
             else
-                return "Egalité parfaite";
+                return "Egalité";
         }
 
         // couleur 5
         if ( (estCouleur(combJ1) && nbCouleur(couleurCarte) == 5) && !(estCouleur(combJ2) && nbCouleur(couleurCarte) == 5) )
-            return j1.getNomJoueur() + " gagne !";
+            return j1.getNomJoueur();
         if ( (estCouleur(combJ2) && nbCouleur(couleurCarte) == 5) && !(estCouleur(combJ1) && nbCouleur(couleurCarte) == 5) )
-            return j2.getNomJoueur() + " gagne !";
+            return j2.getNomJoueur();
         if ( (estCouleur(combJ1) && nbCouleur(couleurCarte) == 5) &&  (estCouleur(combJ2) && nbCouleur(couleurCarte) == 5) )
             return departageCarteHaute(combJ1, combJ2, j1, j2);
 
         //quinte
         if (estQuinte(combJ1) && !estQuinte(combJ2))
-            return j1.getNomJoueur() + " gagne !";
+            return j1.getNomJoueur();
         if (estQuinte(combJ2) && !estQuinte(combJ1))
-            return j2.getNomJoueur() + " gagne !";
+            return j2.getNomJoueur();
         if (estQuinte(combJ1) &&  estQuinte(combJ2))
             return departageCarteHaute(combJ1, combJ2, j1, j2);
 
         // brelan (paire 3)
         if ( (estPaire(combJ1) && nbCarteIdentique(valeurCarte) == 3) && !(estPaire(combJ2) && nbCarteIdentique(valeurCarte) == 3) )
-            return j1.getNomJoueur() + " gagne !";
+            return j1.getNomJoueur();
         if ( (estPaire(combJ1) && nbCarteIdentique(valeurCarte) == 3) && !(estPaire(combJ2) && nbCarteIdentique(valeurCarte) == 3) )
-            return j2.getNomJoueur() + " gagne !";
+            return j2.getNomJoueur();
         if ( (estPaire(combJ1) && nbCarteIdentique(valeurCarte) == 3) && !(estPaire(combJ2) && nbCarteIdentique(valeurCarte) == 3) )
             return departageCarteHaute(combJ1, combJ2, j1, j2);
 
@@ -372,9 +374,9 @@ public class Combinaison
 
         // 1 paire (paire 2)
         if ( (estPaire(combJ1) && nbCarteIdentique(valeurCarte) == 2) && !(estPaire(combJ2) && nbCarteIdentique(valeurCarte) == 2) )
-            return j1.getNomJoueur() + " gagne !";
+            return j1.getNomJoueur();
         if ( (estPaire(combJ1) && nbCarteIdentique(valeurCarte) == 2) && !(estPaire(combJ2) && nbCarteIdentique(valeurCarte) == 2) )
-            return j2.getNomJoueur() + " gagne !";
+            return j2.getNomJoueur();
         if ( (estPaire(combJ1) && nbCarteIdentique(valeurCarte) == 2) && !(estPaire(combJ2) && nbCarteIdentique(valeurCarte) == 2) )
             return departageCarteHaute(combJ1, combJ2, j1, j2);
 
@@ -386,9 +388,9 @@ public class Combinaison
         if (!combJ1.isEmpty())
         {
             if (carteHaute(combJ1) > carteHaute(combJ2))
-                return j1.getNomJoueur() + " gagne !";
+                return j1.getNomJoueur();
             else if (carteHaute(combJ1) < carteHaute(combJ2))
-                return j2.getNomJoueur() + " gagne !";
+                return j2.getNomJoueur();
             else {
                 for (int cpt = 0; cpt < combJ1.size(); cpt++)
                     if (combJ1.get(cpt).getValeur() == carteHaute(combJ1))
@@ -403,7 +405,7 @@ public class Combinaison
         }
         else
         {
-            return "Egalité parfaite";
+            return "Egalité";
         }
     }
 
@@ -413,16 +415,16 @@ public class Combinaison
         ArrayList<Carte> combJ2 = j2.getCombinaisonJoueur();
 
         if (carteHautePaire(combJ1) > carteHautePaire(combJ2))
-            return j1.getNomJoueur() + " gagne !";
+            return j1.getNomJoueur();
         else if (carteHautePaire(combJ2) > carteHautePaire(combJ1))
-            return j2.getNomJoueur() + " gagne !";
+            return j2.getNomJoueur();
             // "Si les deux joueurs ont le même carré, le pot est remis à celui qui a la cinquième carte la plus haute, appelée aussi acolyte"
         else if (getAcolyte(combJ1) > getAcolyte(combJ2))
-            return j1.getNomJoueur() + " gagne !";
+            return j1.getNomJoueur();
         else if (getAcolyte(combJ2) > getAcolyte(combJ1))
-            return j2.getNomJoueur() + " gagne !";
+            return j2.getNomJoueur();
         else
-            return "Egalité parfaite";
+            return "Egalité";
     }
 
     private String departageDoublePaire(ArrayList<Carte> combJ1, ArrayList<Carte> combJ2, Joueur j1, Joueur j2)
@@ -451,19 +453,14 @@ public class Combinaison
         if (valP1J1 != 0 && valP1J2 != 0 && valP2J1 != 0 && valP2J2 != 0)
         {
             if (valP1J1 > valP1J2 && valP1J1 > valP2J2)
-                return j1.getNomJoueur() + " gagne !";
+                return j1.getNomJoueur() ;
             else if (valP1J2 > valP1J1 && valP1J2 > valP2J1)
-                return j2.getNomJoueur() + " gagne !";
+                return j2.getNomJoueur();
             else if (valP2J1 > valP2J2 && valP2J1 > valP1J2)
-                return j1.getNomJoueur() + " gagne !";
+                return j1.getNomJoueur();
             else if (valP2J2 > valP2J1 && valP2J2 > valP1J2)
-                return j2.getNomJoueur() + " gagne !";
+                return j2.getNomJoueur();
         }
-        return "Egalité parfaite";
+        return "Egalité";
     }
-
-    /*public String gestionPaire()
-    {
-
-    }*/
 }

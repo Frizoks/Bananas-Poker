@@ -61,12 +61,12 @@ public class StageSalleAttente extends Stage implements Initializable {
     {
         grdTabJoueur.getChildren().clear();
         cptCol = cptLig = 0;
-        GridPane grdPaneTemp = new GridPane();
 
         Image pathImgHomme = new Image(PokerApplication.class.getResourceAsStream("images/icons/ppHomme.png"));
         Image pathImgFemme = new Image(PokerApplication.class.getResourceAsStream("images/icons/ppFemme.png"));
 
         for ( Joueur j : salle.getConnections() ) {
+            GridPane grdPaneTemp = new GridPane();
             ImageView imageView = new ImageView((int) (Math.random() * 2) == 1 ? pathImgHomme : pathImgFemme);
 
             Label labelNom = new Label(j.getNomJoueur());

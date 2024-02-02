@@ -1,6 +1,7 @@
 package projet.bananaspoker.metier;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class Table {
@@ -17,6 +18,7 @@ public class Table {
         this.salle = salle;
 
         this.pioche   = Carte.genererJeu();
+        Collections.sort(this.pioche);
         this.jeuTable = new ArrayList<Carte>();
 
         this.joueurs  = joueurs;
@@ -73,7 +75,8 @@ public class Table {
                               mises.remove(indJoueur);
                               break;
                     case 0  : break;
-                    default : if(joueurs.get(indJoueur).enleverJetons(mise) <= 0) {
+                    default : if(joueurs.get(indJoueur).enleverJetons(mise) == 0) {
+                                  mises.set(indJoueur, mises.get(indJoueur) + mise);
                                   allIn.add(joueurs.remove(indJoueur));
                                   misesAllIn.add(mises.remove(indJoueur));
                               }

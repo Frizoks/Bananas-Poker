@@ -74,6 +74,8 @@ public class Salle {
                                             joueur.getSortie().println("D:" + donneesJ);
                                     }
                                 }
+                                System.out.println(lstConnections);
+                                break;
                             }
                         }
                     });

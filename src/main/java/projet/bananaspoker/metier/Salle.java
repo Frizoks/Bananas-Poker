@@ -83,7 +83,7 @@ public class Salle {
         this.client = new Thread(() -> {
 			Socket socket = null;
 			try {
-				socket = new Socket("PC_Luc", port);
+				socket = new Socket("c-di-722-13", port);
                 BufferedReader entree = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 PrintWriter    sortie = new PrintWriter(socket.getOutputStream(), true);
 

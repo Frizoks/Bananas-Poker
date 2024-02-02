@@ -80,6 +80,10 @@ public class Joueur
             return nbJetons;
         }
     }
+    public void ajouterJetons(int nbJetons)
+    {
+        this.nbJetonsJoueur += nbJetons;
+    }
 
     public ArrayList<Carte> getCombinaisonJoueur() {
         return combinaisonJoueur;

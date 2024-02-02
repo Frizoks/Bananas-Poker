@@ -35,13 +35,13 @@ public class Table {
         ArrayList<Joueur> allIn = new ArrayList<Joueur>();
         //this.salle.afficherCarteJoueurs();
 
-        //debut de la manche et repartition de la blinde
+        //debut de la manche et repartition des blindes
         ArrayList<Integer> mises = new ArrayList<Integer>();
         mises.add(this.blinde);
         mises.add(this.blinde * 2);
         for(int i = 2; i < joueurs.size(); i++) {mises.add(0);}
 
-        while(joueurs.size() > 1/* || this.jeuTable.size() <= 5*/)
+        while(!(joueurs.size() <= 1 && allIn.size() == 0))
         {
             int indJoueur = 2;
             while(!touteMiseEgale(mises))
@@ -68,7 +68,17 @@ public class Table {
             }
             else if(this.jeuTable.size() == 5) {break;}
         }
-
+        if(joueurs.size() == 1 && allIn.size() == 0) {
+            joueurs.get(0).ajouterJetons(totalAl(mises));
+        }
+        else {
+            ArrayList<Joueur> verifCombi = (ArrayList<Joueur>) joueurs.clone();
+            for (Joueur j : allIn) {
+                verifCombi.add(j);
+            }
+            //Joueur j = Combinaison.quiGagne(verifCombi);
+            //j.ajouterJetons(totalAl(mises));
+        }
     }
 
     public boolean touteMiseEgale(ArrayList<Integer> mises) {

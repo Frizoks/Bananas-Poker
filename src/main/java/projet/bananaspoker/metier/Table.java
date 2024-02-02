@@ -102,7 +102,7 @@ public class Table {
             for (Joueur j : allIn) {verifCombi.add(j);}
             Joueur j = Combinaison.quiGagne(verifCombi);
             if(allIn.contains(j)) {
-
+                j.ajouterJetons(misesAllIn.get(allIn.indexOf(j)) * this.joueurs.size());
             }
             else {
                 j.ajouterJetons(totalAl(mises));

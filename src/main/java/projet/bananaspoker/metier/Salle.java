@@ -19,6 +19,7 @@ public class Salle {
     private final int nbJetonsDep;
     private final int nbJoueursTot;
     private final ArrayList<Joueur> lstConnections;
+    private final ArrayList<Joueur> lstJoueurs;
     private StageSalleAttente salleAttente;
     private Socket client;
 
@@ -27,6 +28,7 @@ public class Salle {
         this.nbJoueursTot = nbJoueursTot;
         this.password = password;
         this.lstConnections = new ArrayList<>();
+        this.lstJoueurs = new ArrayList<>();
         this.nbJetonsDep = nbJetonsDep;
         this.salleAttente = Gestionnaire.creer("salleAttente");
         this.salleAttente.setSalle(this);
@@ -65,7 +67,9 @@ public class Salle {
                                     joueur.getSortie().println("D:" + j);
                                 }
                             }
-                        } catch (IOException e) { this.lstConnections.remove(j); }
+                        } catch (IOException e) {
+                            System.out.println(e);
+                        }
                     });
                     detecteurDeco.start();
                 }
@@ -100,17 +104,17 @@ public class Salle {
                     Joueur jATraiter = new Joueur(donnees[1],Integer.parseInt(donnees[2]));
                     if ( donnees[0].equals("C") ) {
                         boolean estPresent = false;
-                        for ( Joueur j : lstConnections) {
+                        for ( Joueur j : lstJoueurs) {
                             if ( j.getNomJoueur().equals(jATraiter.getNomJoueur()))
                                 estPresent = true;
                         }
                         if ( !estPresent ) {
-                            this.lstConnections.add(jATraiter);
+                            this.lstJoueurs.add(jATraiter);
                             Platform.runLater(() -> salleAttente.actualiser());
                         }
                     }
                     else if ( donnees[0].equals("D") ) {
-                        lstConnections.removeIf(jAEnlever -> jAEnlever.getNomJoueur().equals(jATraiter.getNomJoueur()));
+                        lstJoueurs.removeIf(jAEnlever -> jAEnlever.getNomJoueur().equals(jATraiter.getNomJoueur()));
                         Platform.runLater(() -> salleAttente.actualiser());
                     }
                 }

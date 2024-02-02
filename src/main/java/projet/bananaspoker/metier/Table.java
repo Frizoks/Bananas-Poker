@@ -94,7 +94,7 @@ public class Table {
         if(joueurs.size() == 1 && allIn.size() == 0) {
             joueurs.get(0).ajouterJetons(totalAl(mises));
         }
-        /*else {
+        else {
             ArrayList<Joueur> verifCombi = (ArrayList<Joueur>) joueurs.clone();
             for (Joueur j : allIn) {verifCombi.add(j);}
             Joueur j = Combinaison.quiGagne(verifCombi);
@@ -104,7 +104,7 @@ public class Table {
             else {
                 j.ajouterJetons(totalAl(mises));
             }
-        }*/
+        }
     }
 
     public boolean touteMiseEgale(ArrayList<Integer> mises) {

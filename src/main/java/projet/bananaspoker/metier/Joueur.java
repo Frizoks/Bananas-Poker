@@ -74,10 +74,13 @@ public class Joueur
             this.nbJetonsJoueur -= nbJetons;
             return nbJetons;
         }
-        else {
-            nbJetons = this.nbJetonsJoueur;
+        else if(this.nbJetonsJoueur - nbJetons == 0) {
             this.nbJetonsJoueur = 0;
-            return nbJetons;
+            return 0;
+        }
+        else {
+            this.nbJetonsJoueur = 0;
+            return -1;
         }
     }
     public void ajouterJetons(int nbJetons)

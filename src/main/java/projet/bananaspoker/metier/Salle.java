@@ -45,12 +45,13 @@ public class Salle {
                     Joueur j = new Joueur(donnees[0],Integer.parseInt(donnees[1]));
                     j.setPorts(clientSocket);
 
+                    this.lstConnections.add( j );
                     for ( Joueur joueur : lstConnections )
                     {
-                        joueur.getSortie().println("C:" + j);
-                        j.getSortie().println("C:" + joueur);
+                        for ( Joueur donneesJ : lstConnections )
+                            joueur.getSortie().println("C:" + donneesJ);
                     }
-                    this.lstConnections.add( j );
+
 
                     Thread detecteurDeco = new Thread(() -> {
                         try {
@@ -94,12 +95,16 @@ public class Salle {
                 String messageFromServer;
                 while ((messageFromServer = entree.readLine()) != null) {
                     String[] donnees = messageFromServer.split(":");
+                    Joueur jATraiter = new Joueur(donnees[1],Integer.parseInt(donnees[2]));
                     if ( donnees[0].equals("C") ) {
-                        this.lstConnections.add(new Joueur(donnees[1],Integer.parseInt(donnees[2])));
+                        if ( !lstConnections.contains(jATraiter) )
+                            this.lstConnections.add(jATraiter);
                         Platform.runLater(() -> salleAttente.actualiser());
                     }
-                    else if ( donnees[0].equals("D") )
+                    else if ( donnees[0].equals("D") ) {
+                        lstConnections.remove(jATraiter);
                         Platform.runLater(() -> salleAttente.actualiser());
+                    }
                 }
 			} catch (IOException e) {
                 System.out.println(e);

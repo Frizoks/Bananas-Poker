@@ -26,7 +26,7 @@ public class Table {
         Table.nbManches++;
 
         int blindeTemp = salle.getNbJoueursTot() - this.joueurs.size();
-        this.blinde = salle.getNbJetonsDep() * blindeTemp;
+        this.blinde = (salle.getNbJetonsDep() / 50) * blindeTemp;
     }
 
     public void jouer() {
@@ -68,7 +68,6 @@ public class Table {
                 //this.salle.afficherCarteJeu(this.jeuTable.get(this.jeuTable.size() - 1));
             }
             else if(this.jeuTable.size() == 5) {break;}
-
         }
 
         joueurs.add(joueurs.remove(0));

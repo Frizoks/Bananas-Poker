@@ -84,11 +84,10 @@ public class Salle {
 
     public void connection(int port, String nomJ) {
         Thread gerant = new Thread(() -> {
-			Socket socket = null;
 			try {
 				this.client = new Socket("c-di-722-13", port);
-                BufferedReader entree = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-                PrintWriter    sortie = new PrintWriter(socket.getOutputStream(), true);
+                BufferedReader entree = new BufferedReader(new InputStreamReader(this.client.getInputStream()));
+                PrintWriter    sortie = new PrintWriter(this.client.getOutputStream(), true);
 
                 Joueur moi = new Joueur(nomJ,this.nbJetonsDep);
                 Platform.runLater(() -> salleAttente.actualiser());

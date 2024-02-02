@@ -11,7 +11,6 @@ public class Table {
     private ArrayList<Carte>  pioche;
     private ArrayList<Carte>  jeuTable;
     private ArrayList<Joueur> joueurs;
-    private int nbTours;
 
 
     public Table(Salle salle, ArrayList<Joueur> joueurs) {
@@ -21,8 +20,6 @@ public class Table {
         this.jeuTable = new ArrayList<Carte>();
 
         this.joueurs  = joueurs;
-
-        this.nbTours  = 0;
         Table.nbManches++;
 
         int blindeTemp = salle.getNbJoueursTot() - this.joueurs.size();
@@ -30,9 +27,8 @@ public class Table {
     }
 
     public void jouer() {
-        ArrayList<Joueur> joueursQuiJoue = (ArrayList<Joueur>) this.joueurs.clone();
-        for(Joueur j : joueursQuiJoue) {j.addCarteMainJoueur(this.pioche.remove(0));}
-        for(Joueur j : joueursQuiJoue) {j.addCarteMainJoueur(this.pioche.remove(0));}
+        for(Joueur j : joueurs) {j.addCarteMainJoueur(this.pioche.remove(0));}
+        for(Joueur j : joueurs) {j.addCarteMainJoueur(this.pioche.remove(0));}
         ArrayList<Joueur> allIn = new ArrayList<Joueur>();
         //this.salle.afficherCarteJoueurs();
 
@@ -40,28 +36,28 @@ public class Table {
         ArrayList<Integer> mises = new ArrayList<Integer>();
         mises.add(this.blinde);
         mises.add(this.blinde * 2);
-        for(int i = 2; i < joueursQuiJoue.size(); i++) {mises.add(0);}
+        for(int i = 2; i < joueurs.size(); i++) {mises.add(0);}
 
-        while(joueursQuiJoue.size() > 1/* || this.jeuTable.size() <= 5*/)
+        while(joueurs.size() > 1/* || this.jeuTable.size() <= 5*/)
         {
             int indJoueur = 2;
             while(!touteMiseEgale(mises))
             {
                 int indice = 0;
-                int mise = 0;//this.salle.demanderMise(joueursQuiJoue.get(indice), maxiAl(mises) - mises.get(indice));
+                int mise = 0;//this.salle.demanderMise(joueurs.get(indice), maxiAl(mises) - mises.get(indice));
                 switch(mise)
                 {
-                    case -1 : joueursQuiJoue.remove(indice);
+                    case -1 : joueurs.remove(indice);
                               mises.remove(indice);
                               break;
                     case 0  : break;
-                    default : if(joueursQuiJoue.get(indice).enleverJetons(mise) <= 0) {
-                                  allIn.add(joueursQuiJoue.remove(indice));
+                    default : if(joueurs.get(indice).enleverJetons(mise) <= 0) {
+                                  allIn.add(joueurs.remove(indice));
                               }
                               mises.set(indice, mises.get(indice) + mise);
                 }
                 if(mise != -1) {indJoueur++;}
-                indJoueur = indJoueur % joueursQuiJoue.size();
+                indJoueur = indJoueur % joueurs.size();
             }
             if(this.jeuTable.size() < 5) {
                 this.jeuTable.add(this.pioche.remove(0));
@@ -70,7 +66,6 @@ public class Table {
             else if(this.jeuTable.size() == 5) {break;}
         }
 
-        joueurs.add(joueurs.remove(0));
     }
 
     public boolean touteMiseEgale(ArrayList<Integer> mises) {
@@ -137,12 +132,5 @@ public class Table {
     }
     public void addJoueur(Joueur joueur) {
         this.joueurs.add(joueur);
-    }
-
-    public int getNbTours() {
-        return nbTours;
-    }
-    public void setNbTours(int nbTours) {
-        this.nbTours = nbTours;
     }
 }

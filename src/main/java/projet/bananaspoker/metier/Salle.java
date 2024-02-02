@@ -97,12 +97,18 @@ public class Salle {
                     String[] donnees = messageFromServer.split(":");
                     Joueur jATraiter = new Joueur(donnees[1],Integer.parseInt(donnees[2]));
                     if ( donnees[0].equals("C") ) {
-                        if ( !lstConnections.contains(jATraiter) )
+                        boolean estPresent = false;
+                        for ( Joueur j : lstConnections) {
+                            if ( j.getNomJoueur().equals(jATraiter.getNomJoueur()))
+                                estPresent = true;
+                        }
+                        if ( !estPresent ) {
                             this.lstConnections.add(jATraiter);
-                        Platform.runLater(() -> salleAttente.actualiser());
+                            Platform.runLater(() -> salleAttente.actualiser());
+                        }
                     }
                     else if ( donnees[0].equals("D") ) {
-                        lstConnections.remove(jATraiter);
+                        lstConnections.removeIf(jAEnlever -> jAEnlever.getNomJoueur().equals(jATraiter.getNomJoueur()));
                         Platform.runLater(() -> salleAttente.actualiser());
                     }
                 }

@@ -57,18 +57,15 @@ public class Salle {
 
                     Thread detecteurDeco = new Thread(() -> {
                         try {
-                            while (true){
-                                if ( entreeTemp==null ) { return; }
-                                String[] deco = entreeTemp.readLine().split(":");
-                                if ( deco[0].equals("D") )
-                                    this.lstConnections.remove(j);
-                                for ( Joueur joueur : lstConnections )
-                                {
-                                    joueur.getSortie().println("D:" + j);
-                                }
+                            while (entreeTemp!=null && entreeTemp.readLine()!=null ) {
+                                Thread.sleep(100);
                             }
-                        } catch (IOException e) {
-                            System.out.println(e);
+                        } catch (IOException | InterruptedException e) {
+                            this.lstConnections.remove(j);
+                            for ( Joueur joueur : lstConnections )
+                            {
+                                joueur.getSortie().println("D:" + j);
+                            }
                         }
                     });
                     detecteurDeco.start();
@@ -105,8 +102,10 @@ public class Salle {
                     if ( donnees[0].equals("C") ) {
                         boolean estPresent = false;
                         for ( Joueur j : lstJoueurs) {
-                            if ( j.getNomJoueur().equals(jATraiter.getNomJoueur()))
+                            if (j.getNomJoueur().equals(jATraiter.getNomJoueur())) {
                                 estPresent = true;
+                                break;
+                            }
                         }
                         if ( !estPresent ) {
                             this.lstJoueurs.add(jATraiter);

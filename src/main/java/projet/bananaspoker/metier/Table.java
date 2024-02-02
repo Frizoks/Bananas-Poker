@@ -31,20 +31,18 @@ public class Table {
 
     public void jouer() {
         ArrayList<Joueur> joueursQuiJoue = (ArrayList<Joueur>) this.joueurs.clone();
+        //for(Joueur j : joueursQuiJoue) {j.}
+        //for(Joueur j : joueursQuiJoue) {j.}
+        ArrayList<Joueur> allIn = new ArrayList<Joueur>();
 
         //debut de la manche et repartition de la blinde
-        joueursQuiJoue.get(0).enleverJetons(this.blinde);
-        joueursQuiJoue.get(joueursQuiJoue.size()-1).enleverJetons(this.blinde * 2);
+        ArrayList<Integer> mises = new ArrayList<Integer>();
+        mises.add(this.blinde);
+        mises.add(this.blinde * 2);
+        for(int i = 2; i < joueursQuiJoue.size(); i++) {mises.add(0);}
 
-        while(joueursQuiJoue.size() > 1)
+        while(joueursQuiJoue.size() > 1/* || this.jeuTable.size() <= 5*/)
         {
-            ArrayList<Integer> mises = new ArrayList<Integer>();
-            int miseTotal = 0;
-            mises.add(this.blinde);
-            mises.add(this.blinde * 2);
-            for(int i = 2; i < joueursQuiJoue.size(); i++) {
-                mises.add(0);
-            }
             int indJoueur = 2;
             while(!touteMiseEgale(mises))
             {
@@ -56,16 +54,20 @@ public class Table {
                               mises.remove(indice);
                               break;
                     case 0  : break;
-                    default : Integer tmp = mises.get(indice);
-                              tmp += mise;
-                              mises.set(indice, tmp);
+                    default : if(joueursQuiJoue.get(indice).enleverJetons(mise) <= 0) {
+                                  allIn.add(joueursQuiJoue.remove(indice));
+                              }
+                              mises.set(indice, mises.get(indice) + mise);
                 }
                 if(mise != -1) {indJoueur++;}
                 indJoueur = indJoueur % joueursQuiJoue.size();
             }
-            if(this.jeuTable.size() < 5) {this.jeuTable.add(this.pioche.get((int)(Math.random() * this.pioche.size())));}
-            miseTotal += totalAl(mises);
-            mises.clear();
+            if(this.jeuTable.size() < 5) {
+                this.jeuTable.add(this.pioche.get((int)(Math.random() * this.pioche.size())));
+                //this.salle.envoyerCarte(this.jeuTable.get(this.jeuTable.size() - 1));
+            }
+            else if(this.jeuTable.size() == 5) {break;}
+
         }
 
         joueurs.add(joueurs.remove(0));

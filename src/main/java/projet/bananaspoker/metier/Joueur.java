@@ -55,6 +55,7 @@ public class Joueur
     {
         this.mainJoueur = mainJoueur;
     }
+    public void addCarteMainJoueur(Carte c) {if(this.mainJoueur.size() < 2) {this.mainJoueur.add(c);}}
 
     public int getNbJetonsJoueur()
     {

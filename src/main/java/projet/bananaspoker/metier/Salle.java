@@ -58,7 +58,7 @@ public class Salle {
                                 this.lstConnections.remove(j);
                             for ( Joueur joueur : lstConnections )
                             {
-                                joueur.getSortie().println("D" + j);
+                                joueur.getSortie().println("D:" + j);
                             }
                         } catch (IOException e) { this.lstConnections.remove(j); }
                     });
@@ -71,7 +71,7 @@ public class Salle {
             }*/
 
                 System.out.println("Game finish. Server is closing.");
-            } catch (IOException e) {
+			} catch (IOException e) {
                 e.printStackTrace();
             }
         });

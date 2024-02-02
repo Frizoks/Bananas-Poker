@@ -103,7 +103,7 @@ public class Salle {
                             Thread.sleep(100);
                         }
                         System.out.println("La fenetre est fermé");
-                        sortie.println("D:0");
+                        sortie.println("D:Test:0");
                     } catch (InterruptedException ignored) { }
                 });
                 detecteurDeco.start();

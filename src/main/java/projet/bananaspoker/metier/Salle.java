@@ -53,6 +53,7 @@ public class Salle {
                                 j.setPorts(clientSocket);
 
                                 this.lstConnections.add( j );
+                                System.out.println(this.lstConnections);
                                 for ( Joueur joueur : this.lstConnections )
                                 {
                                     for ( Joueur donneesJ : this.lstConnections )
@@ -104,7 +105,7 @@ public class Salle {
                             Thread.sleep(100);
                         }
                         System.out.println("La fenetre est fermé");
-                        sortie.println("D:Test:0");
+                        sortie.println("D:" + moi);
                     } catch (InterruptedException ignored) { }
                 });
                 detecteurDeco.start();

@@ -60,7 +60,6 @@ public class Salle {
                                     }
                                 }
                             } catch (Exception e) {
-                                System.out.println("Quelqu'un part");
                                 Joueur jAEnlever = null;
                                 for (Joueur j : this.lstConnections ) {
                                     try {
@@ -68,6 +67,7 @@ public class Salle {
                                     } catch (IOException ex) { jAEnlever = j; }
                                 }
                                 if (jAEnlever!=null) {
+                                    System.out.println("Je l'enleve");
                                     lstConnections.remove(jAEnlever);
                                     for (Joueur joueur : this.lstConnections) {
                                         for (Joueur donneesJ : this.lstConnections)

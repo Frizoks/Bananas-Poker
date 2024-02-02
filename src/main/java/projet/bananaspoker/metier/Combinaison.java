@@ -267,7 +267,16 @@ public class Combinaison
         return combJoueur;
     }
 
-    public String departageJoueurs (Joueur j1, Joueur j2)
+    public Joueur quiGagne (ArrayList<Joueur> lstJoueur)
+    {
+    	for (int cpt = 0; cpt < lstJoueur.size()-1; cpt++)
+    	{
+    		String res = departageJoueurs(lstJoueur.get(cpt), lstJoueur.get(cpt+1));
+    		if (res.equals(lstJoueur.get(cpt).getNomJoueur()))
+    	}
+    }
+
+    private String departageJoueurs (Joueur j1, Joueur j2)
     {
         ArrayList<Carte> combJ1 = j1.getCombinaisonJoueur();
         ArrayList<Carte> combJ2 = j2.getCombinaisonJoueur();

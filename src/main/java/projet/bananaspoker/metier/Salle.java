@@ -46,8 +46,8 @@ public class Salle {
 
                     for ( Joueur joueur : lstConnections )
                     {
-                        joueur.getSortie().println("C" + j);
-                        j.getSortie().println("C" + joueur);
+                        joueur.getSortie().println("C:" + j);
+                        j.getSortie().println("C:" + joueur);
                     }
                     this.lstConnections.add( j );
 

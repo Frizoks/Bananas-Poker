@@ -34,30 +34,50 @@ public class Table {
         for(Joueur j : joueurs) {j.addCarteMainJoueur(this.pioche.remove(0));}
         ArrayList<Joueur> allIn = new ArrayList<Joueur>();
         //this.salle.afficherCarteJoueurs();
+        int indJoueur = 2;
 
         //debut de la manche et repartition des blindes
         ArrayList<Integer> mises = new ArrayList<Integer>();
+        ArrayList<Integer> misesAllIn = new ArrayList<Integer>();
         mises.add(this.blinde);
-        mises.add(this.blinde * 2);
+        if(this.joueurs.get(0).enleverJetons(this.blinde) <= 0) {
+            misesAllIn.add(mises.remove(0));
+            allIn.add(joueurs.remove(0));
+
+            indJoueur = 1;
+            mises.add(this.blinde * 2);
+            if(this.joueurs.get(1).enleverJetons(this.blinde*2) <= 0) {
+                misesAllIn.add(mises.remove(0));
+                allIn.add(joueurs.remove(0));
+                indJoueur = 0;
+            }
+        }
+        else {
+            mises.add(this.blinde * 2);
+            if(this.joueurs.get(1).enleverJetons(this.blinde*2) <= 0) {
+                misesAllIn.add(mises.remove(1));
+                allIn.add(joueurs.remove(1));
+                indJoueur = 1;
+            }
+        }
         for(int i = 2; i < joueurs.size(); i++) {mises.add(0);}
 
         while(!(joueurs.size() <= 1 && allIn.size() == 0))
         {
-            int indJoueur = 2;
             while(!touteMiseEgale(mises))
             {
-                int indice = 0;
-                int mise = 0;//this.salle.demanderMise(joueurs.get(indice), maxiAl(mises) - mises.get(indice));
+                int mise = 0;//this.salle.demanderMise(joueurs.get(indJouer), maxiAl(mises) - mises.get(indJouer));
                 switch(mise)
                 {
-                    case -1 : joueurs.remove(indice);
-                              mises.remove(indice);
+                    case -1 : joueurs.remove(indJoueur);
+                              mises.remove(indJoueur);
                               break;
                     case 0  : break;
-                    default : if(joueurs.get(indice).enleverJetons(mise) <= 0) {
-                                  allIn.add(joueurs.remove(indice));
+                    default : if(joueurs.get(indJoueur).enleverJetons(mise) <= 0) {
+                                  allIn.add(joueurs.remove(indJoueur));
+                                  misesAllIn.add(mises.remove(indJoueur));
                               }
-                              mises.set(indice, mises.get(indice) + mise);
+                              mises.set(indJoueur, mises.get(indJoueur) + mise);
                 }
                 if(mise != -1) {indJoueur++;}
                 indJoueur = indJoueur % joueurs.size();

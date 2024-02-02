@@ -77,7 +77,10 @@ public class Table {
                                   allIn.add(joueurs.remove(indJoueur));
                                   misesAllIn.add(mises.remove(indJoueur));
                               }
-                              mises.set(indJoueur, mises.get(indJoueur) + mise);
+                              else {
+                                  mises.set(indJoueur, mises.get(indJoueur) + mise);
+                              }
+
                 }
                 if(mise != -1) {indJoueur++;}
                 indJoueur = indJoueur % joueurs.size();

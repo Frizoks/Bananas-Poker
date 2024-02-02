@@ -63,8 +63,8 @@ public class Salle {
                                 Joueur jAEnlever = null;
                                 for (Joueur j : this.lstConnections ) {
                                     try {
-                                        j.getEntree().ready();
-                                    } catch (IOException ex) { jAEnlever = j; }
+                                        j.getSortie().println("T:T");
+                                    } catch (Exception ex) { jAEnlever = j; }
                                 }
                                 if (jAEnlever!=null) {
                                     System.out.println("Je l'enleve");
@@ -109,23 +109,25 @@ public class Salle {
                 String messageFromServer;
                 while ((messageFromServer = entree.readLine()) != null) {
                     String[] donnees = messageFromServer.split(":");
-                    Joueur jATraiter = new Joueur(donnees[1],Integer.parseInt(donnees[2]));
-                    if ( donnees[0].equals("C") ) {
-                        boolean estPresent = false;
-                        for ( Joueur j : lstJoueurs) {
-                            if (j.getNomJoueur().equals(jATraiter.getNomJoueur())) {
-                                estPresent = true;
-                                break;
+                    if (!donnees[0].equals("T")) {
+                        Joueur jATraiter = new Joueur(donnees[1],Integer.parseInt(donnees[2]));
+                        if ( donnees[0].equals("C") ) {
+                            boolean estPresent = false;
+                            for ( Joueur j : lstJoueurs) {
+                                if (j.getNomJoueur().equals(jATraiter.getNomJoueur())) {
+                                    estPresent = true;
+                                    break;
+                                }
+                            }
+                            if ( !estPresent ) {
+                                this.lstJoueurs.add(jATraiter);
+                                Platform.runLater(() -> salleAttente.actualiser());
                             }
                         }
-                        if ( !estPresent ) {
-                            this.lstJoueurs.add(jATraiter);
+                        else if ( donnees[0].equals("D") ) {
+                            lstJoueurs.removeIf(jAEnlever -> jAEnlever.getNomJoueur().equals(jATraiter.getNomJoueur()));
                             Platform.runLater(() -> salleAttente.actualiser());
                         }
-                    }
-                    else if ( donnees[0].equals("D") ) {
-                        lstJoueurs.removeIf(jAEnlever -> jAEnlever.getNomJoueur().equals(jATraiter.getNomJoueur()));
-                        Platform.runLater(() -> salleAttente.actualiser());
                     }
                 }
                 System.out.println("c'est la fin");

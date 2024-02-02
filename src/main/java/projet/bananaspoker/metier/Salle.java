@@ -46,10 +46,23 @@ public class Salle {
 
                     for ( Joueur joueur : lstConnections )
                     {
-                        joueur.getSortie().println(j);
-                        j.getSortie().println(joueur);
+                        joueur.getSortie().println("C" + j);
+                        j.getSortie().println("C" + joueur);
                     }
                     this.lstConnections.add( j );
+
+                    Thread detecteurDeco = new Thread(() -> {
+                        try {
+                            String[] deco = entreeTemp.readLine().split(":");
+                            if ( deco[0].equals("D") )
+                                this.lstConnections.remove(j);
+                            for ( Joueur joueur : lstConnections )
+                            {
+                                joueur.getSortie().println("D" + j);
+                            }
+                        } catch (IOException e) { this.lstConnections.remove(j); }
+                    });
+                    detecteurDeco.start();
                 }
 
             /*while ( !partieGagne ) {
@@ -68,19 +81,22 @@ public class Salle {
         Thread client = new Thread(() -> {
 			Socket socket = null;
 			try {
-				socket = new Socket("localhost", port);
+				socket = new Socket("PC_Luc", port);
                 BufferedReader entree = new BufferedReader(new InputStreamReader(socket.getInputStream()));
                 PrintWriter    sortie = new PrintWriter(socket.getOutputStream(), true);
 
                 Joueur moi = new Joueur(nomJ,this.nbJetonsDep);
-                Platform.runLater(() -> salleAttente.ajouterJoueur(moi.getNomJoueur()));
+                Platform.runLater(() -> salleAttente.actualiser());
                 sortie.println(moi);
 
                 // Boucle pour lire et afficher les messages du serveur en continu
                 String messageFromServer;
                 while ((messageFromServer = entree.readLine()) != null) {
                     String[] donnees = messageFromServer.split(":");
-                    Platform.runLater(() -> salleAttente.ajouterJoueur(donnees[0]));
+                    if ( donnees[0].equals("C") )
+                        Platform.runLater(() -> salleAttente.actualiser());
+                    else if ( donnees[0].equals("D") )
+                        Platform.runLater(() -> salleAttente.actualiser());
                 }
 			} catch (IOException e) {
                 System.out.println(e);
@@ -90,13 +106,16 @@ public class Salle {
         this.salleAttente.show();
     }
 
-    public void deconnection(Joueur j) {
-        this.lstConnections.remove(j);
-        System.out.println("Un client est parti, " + this.lstConnections.size() + " personnes sont connectées");
+    public void deconnection(String nomJ) {
+        for ( Joueur j : lstConnections )
+            if ( j.getNomJoueur().equals(nomJ) )
+                j.getSortie().println("D:" + j);
     }
 
 
     public String getMotDePasse() { return this.password; }
     public int getNbJetonsDep() { return this.nbJetonsDep; }
     public int getNbJoueursTot() { return this.nbJoueursTot; }
+
+    public ArrayList<Joueur> getConnections() { return this.lstConnections; }
 }

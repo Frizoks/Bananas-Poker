@@ -12,6 +12,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 import projet.bananaspoker.ihm.PokerApplication;
+import projet.bananaspoker.metier.Joueur;
 import projet.bananaspoker.metier.Salle;
 
 import java.io.IOException;
@@ -47,6 +48,7 @@ public class StageSalleAttente extends Stage implements Initializable {
         this.setOnCloseRequest(event -> {
             if ( salle.getNbJoueursTot() < this.lstLabel.size()){
                 serveur.interrupt();
+                salle.deconnection(lstLabel.get(0).getText());
             }
             Stage stage = Gestionnaire.creer("accueil");
             stage.show();
@@ -55,30 +57,34 @@ public class StageSalleAttente extends Stage implements Initializable {
 
     public void setSalle(Salle salle){ this.salle = salle; }
 
-    public void ajouterJoueur( String nomJ ) {
+    public void actualiser( )
+    {
         GridPane grdPaneTemp = new GridPane();
 
         Image pathImgHomme = new Image(PokerApplication.class.getResourceAsStream("images/icons/ppHomme.png"));
         Image pathImgFemme = new Image(PokerApplication.class.getResourceAsStream("images/icons/ppFemme.png"));
-        ImageView imageView = new ImageView((int)(Math.random()*2) == 1 ? pathImgHomme : pathImgFemme);
 
-        Label labelNom = new Label(nomJ);
+        for ( Joueur j : salle.getConnections() ) {
+            ImageView imageView = new ImageView((int) (Math.random() * 2) == 1 ? pathImgHomme : pathImgFemme);
 
-        // Définir les propriétés du label pour correspondre au style du FXML
-        labelNom.setTextFill(Color.WHITE);
-        labelNom.setFont(Font.font("System Bold Italic", FontWeight.BOLD, 24));
-        labelNom.setPadding(new Insets(0, 0, 0, 20)); // Correspond aux valeurs définies dans le FXML
+            Label labelNom = new Label(j.getNomJoueur());
 
-        imageView.setFitHeight(70);
-        imageView.setFitWidth(40);
+            // Définir les propriétés du label pour correspondre au style du FXML
+            labelNom.setTextFill(Color.WHITE);
+            labelNom.setFont(Font.font("System Bold Italic", FontWeight.BOLD, 24));
+            labelNom.setPadding(new Insets(0, 0, 0, 20)); // Correspond aux valeurs définies dans le FXML
 
-        if ( cptCol > 1 ) {
-            cptCol = 0;
-            cptLig++;
+            imageView.setFitHeight(70);
+            imageView.setFitWidth(40);
+
+            if (cptCol > 1) {
+                cptCol = 0;
+                cptLig++;
+            }
+
+            grdPaneTemp.add(imageView, 0, 0);
+            grdPaneTemp.add(labelNom, 1, 0);
+            grdTabJoueur.add(grdPaneTemp, cptCol++, cptLig);
         }
-
-        grdPaneTemp.add(imageView, 0, 0);
-        grdPaneTemp.add(labelNom, 1, 0);
-        grdTabJoueur.add(grdPaneTemp, cptCol++, cptLig);
     }
 }

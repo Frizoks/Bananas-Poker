@@ -11,6 +11,7 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Salle {
 
@@ -18,7 +19,7 @@ public class Salle {
     private final String password;
     private final int nbJetonsDep;
     private final int nbJoueursTot;
-    private final ArrayList<Joueur> lstConnections;
+    private final HashMap<Socket,Joueur> lstConnections;
     private final ArrayList<Joueur> lstJoueurs;
     private StageSalleAttente salleAttente;
     private Socket client;
@@ -27,7 +28,7 @@ public class Salle {
         this.port = port;
         this.nbJoueursTot = nbJoueursTot;
         this.password = password;
-        this.lstConnections = new ArrayList<>();
+        this.lstConnections = new HashMap<>();
         this.lstJoueurs = new ArrayList<>();
         this.nbJetonsDep = nbJetonsDep;
         this.salleAttente = Gestionnaire.creer("salleAttente");
@@ -52,25 +53,24 @@ public class Salle {
                                 if (donnees[0].equals("C")) {
                                     j.setPorts(clientSocket);
 
-                                    this.lstConnections.add(j);
+                                    this.lstConnections.put(clientSocket,j);
                                     System.out.println(this.lstConnections);
-                                    for (Joueur joueur : this.lstConnections) {
-                                        for (Joueur donneesJ : this.lstConnections)
+                                    for (Joueur joueur : this.lstConnections.values()) {
+                                        for (Joueur donneesJ : this.lstConnections.values())
                                             joueur.getSortie().println("C:" + donneesJ);
                                     }
                                 }
                             } catch (Exception e) {
                                 Joueur jAEnlever = null;
-                                for (Joueur j : this.lstConnections ) {
-                                    try {
-                                        j.getSortie().println("T:T");
-                                    } catch (Exception ex) { jAEnlever = j; }
+                                for (Socket soc : this.lstConnections.keySet() ) {
+                                    if ( soc.isInputShutdown() )
+                                        jAEnlever = this.lstConnections.get(soc);
                                 }
                                 if (jAEnlever!=null) {
                                     System.out.println("Je l'enleve");
                                     lstConnections.remove(jAEnlever);
-                                    for (Joueur joueur : this.lstConnections) {
-                                        for (Joueur donneesJ : this.lstConnections)
+                                    for (Joueur joueur : this.lstConnections.values()) {
+                                        for (Joueur donneesJ : this.lstConnections.values())
                                             joueur.getSortie().println("D:" + donneesJ);
                                     }
                                 }
@@ -97,7 +97,7 @@ public class Salle {
     public void connection(int port, String nomJ) {
         Thread gerant = new Thread(() -> {
 			try {
-				this.client = new Socket("PC_Luc", port);
+				this.client = new Socket("c-di-722-13", port);
                 BufferedReader entree = new BufferedReader(new InputStreamReader(this.client.getInputStream()));
                 PrintWriter    sortie = new PrintWriter(this.client.getOutputStream(), true);
 
@@ -109,31 +109,27 @@ public class Salle {
                 String messageFromServer;
                 while ((messageFromServer = entree.readLine()) != null) {
                     String[] donnees = messageFromServer.split(":");
-                    if (!donnees[0].equals("T")) {
-                        Joueur jATraiter = new Joueur(donnees[1],Integer.parseInt(donnees[2]));
-                        if ( donnees[0].equals("C") ) {
-                            boolean estPresent = false;
-                            for ( Joueur j : lstJoueurs) {
-                                if (j.getNomJoueur().equals(jATraiter.getNomJoueur())) {
-                                    estPresent = true;
-                                    break;
-                                }
-                            }
-                            if ( !estPresent ) {
-                                this.lstJoueurs.add(jATraiter);
-                                Platform.runLater(() -> salleAttente.actualiser());
+                    Joueur jATraiter = new Joueur(donnees[1],Integer.parseInt(donnees[2]));
+                    if ( donnees[0].equals("C") ) {
+                        boolean estPresent = false;
+                        for ( Joueur j : lstJoueurs) {
+                            if (j.getNomJoueur().equals(jATraiter.getNomJoueur())) {
+                                estPresent = true;
+                                break;
                             }
                         }
-                        else if ( donnees[0].equals("D") ) {
-                            lstJoueurs.removeIf(jAEnlever -> jAEnlever.getNomJoueur().equals(jATraiter.getNomJoueur()));
+                        if ( !estPresent ) {
+                            this.lstJoueurs.add(jATraiter);
                             Platform.runLater(() -> salleAttente.actualiser());
                         }
                     }
+                    else if ( donnees[0].equals("D") ) {
+                        lstJoueurs.removeIf(jAEnlever -> jAEnlever.getNomJoueur().equals(jATraiter.getNomJoueur()));
+                        Platform.runLater(() -> salleAttente.actualiser());
+                    }
                 }
                 System.out.println("c'est la fin");
-			} catch (IOException e) {
-                System.out.println(e);
-            }
+			} catch (IOException ignored) { }
         });
         gerant.start();
         this.salleAttente.show();

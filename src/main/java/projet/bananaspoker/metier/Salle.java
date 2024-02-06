@@ -67,6 +67,7 @@ public class Salle {
                                     for (Joueur donneesJ : this.lstConnections.values())
                                         joueur.getSortie().println("D:" + donneesJ);
                                 }
+                                break;
                             }
                         }
                     });

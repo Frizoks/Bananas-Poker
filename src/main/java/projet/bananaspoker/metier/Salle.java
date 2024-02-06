@@ -54,14 +54,12 @@ public class Salle {
                                     j.setPorts(clientSocket);
 
                                     this.lstConnections.put(clientSocket,j);
-                                    System.out.println(this.lstConnections);
                                     for (Joueur joueur : this.lstConnections.values()) {
                                         for (Joueur donneesJ : this.lstConnections.values())
                                             joueur.getSortie().println("C:" + donneesJ);
                                     }
                                 }
                             } catch (Exception e) {
-                                System.out.println("Je l'enleve : " + lstConnections.get(clientSocket) + " " + e);
                                 Joueur jAEnlever = lstConnections.remove(clientSocket);
                                 for (Joueur joueur : this.lstConnections.values()) {
                                     joueur.getSortie().println("D:" + jAEnlever);

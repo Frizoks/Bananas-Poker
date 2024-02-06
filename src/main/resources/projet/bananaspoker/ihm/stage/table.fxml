@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+
+
+<Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ImageView fitHeight="1088.0" fitWidth="1931.0" layoutX="-5.0" layoutY="-3.0" pickOnBounds="true">
+         <image>
+            <Image url="@../images/fondTable.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="598.0" fitWidth="1503.0" layoutX="209.0" layoutY="246.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../images/Table.png" />
+         </image>
+      </ImageView>
+   </children>
+</Pane>

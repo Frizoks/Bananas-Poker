@@ -61,7 +61,7 @@ public class Salle {
                                     }
                                 }
                             } catch (Exception e) {
-                                System.out.println("Je l'enleve");
+                                System.out.println("Je l'enleve : " + lstConnections.get(clientSocket) + " " + e);
                                 lstConnections.remove(clientSocket);
                                 for (Joueur joueur : this.lstConnections.values()) {
                                     for (Joueur donneesJ : this.lstConnections.values())

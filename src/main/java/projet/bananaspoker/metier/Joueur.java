@@ -16,19 +16,12 @@ public class Joueur
     private PrintWriter sortie;
     private BufferedReader entree;
 
-    public Joueur(String nomJoueur, ArrayList<Carte> mainJoueur, int nbJetonsJoueur)
+    public Joueur(String nomJoueur, int nbJetonsJoueur)
     {
         this.nomJoueur         = nomJoueur;
-        this.mainJoueur        = mainJoueur;
-        this.combinaisonJoueur = Combinaison.determineCombinaisonJoueur(this);
+        this.mainJoueur        = new ArrayList<Carte>();
+        this.combinaisonJoueur = null;//Combinaison.determineCombinaisonJoueur(this);
         this.nbJetonsJoueur    = nbJetonsJoueur;
-    }
-
-    public Joueur(String nomJoueur, int nbJetonsJoueur) {
-        this.nomJoueur      = nomJoueur;
-        this.nbJetonsJoueur = nbJetonsJoueur;
-        this.entree         = null;
-        this.sortie         = null;
     }
 
     public void setPorts ( Socket clientSocket ) throws IOException {

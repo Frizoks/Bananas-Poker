@@ -1,8 +1,6 @@
 package projet.bananaspoker.metier;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class Table {
     private Salle salle;
@@ -18,17 +16,22 @@ public class Table {
         this.salle = salle;
 
         this.pioche   = Carte.genererJeu();
-        Collections.sort(this.pioche);
+        Collections.shuffle(this.pioche);
         this.jeuTable = new ArrayList<Carte>();
 
         this.joueurs  = joueurs;
         Table.nbManches++;
 
-        int blindeTemp = salle.getNbJoueursTot() - this.joueurs.size();
-        this.blinde = (salle.getNbJetonsDep() / 50) * blindeTemp;
+        //int blindeTemp = salle.getNbJoueursTot() - this.joueurs.size();
+        this.blinde = 5;//(salle.getNbJetonsDep() / 50) * blindeTemp;
+    }
+
+    public Table(ArrayList<Joueur> joueurs) {
+        this(null, joueurs);
     }
 
     public void jouer() {
+        Scanner scanner = new Scanner(System.in);
         int decalage = Table.nbManches % joueurs.size();
         decalage(joueurs, decalage);
 
@@ -66,9 +69,13 @@ public class Table {
 
         while(!(joueurs.size() <= 1 && allIn.size() == 0))
         {
+            for (Joueur j : joueurs)
+                System.out.println(j.getNomJoueur() + "--> " + j.getNbJetonsJoueur());
             while(!touteMiseEgale(mises))
             {
-                int mise = 0;//this.salle.demanderMise(joueurs.get(indJouer), maxiAl(mises) - mises.get(indJouer));
+                System.out.println("C'est au tour de " + this.joueurs.get(indJoueur).getNomJoueur() + this.joueurs.get(indJoueur).getMainJoueur());
+                System.out.println("Quelles somme voulez vous misez ? (" + this.joueurs.get(indJoueur).getNbJetonsJoueur() + ")");
+                int mise = Integer.parseInt(scanner.nextLine());//0;//this.salle.demanderMise(joueurs.get(indJouer), maxiAl(mises) - mises.get(indJouer));
                 switch(mise)
                 {
                     case -1 : joueurs.remove(indJoueur);
@@ -183,5 +190,11 @@ public class Table {
     }
     public void addJoueur(Joueur joueur) {
         this.joueurs.add(joueur);
+    }
+
+    public static void main(String[] args) {
+        ArrayList<Joueur> joueurs = new ArrayList<Joueur>((Arrays.asList(new Joueur("Antoine", 5000), new Joueur("Trystan", 5000), new Joueur("Mathys", 5000), new Joueur("Luc", 5000))));
+        Table table = new Table(joueurs);
+        table.jouer();
     }
 }

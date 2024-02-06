@@ -61,23 +61,12 @@ public class Salle {
                                     }
                                 }
                             } catch (Exception e) {
-                                System.out.println("J'essaie d'enleve");
-                                Joueur jAEnlever = null;
-                                for (Socket soc : this.lstConnections.keySet() ) {
-                                    System.out.println( this.lstConnections.get(soc) + " : " + soc.isInputShutdown());
-                                    if ( soc.isInputShutdown() )
-                                        jAEnlever = this.lstConnections.get(soc);
+                                System.out.println("Je l'enleve");
+                                lstConnections.remove(clientSocket);
+                                for (Joueur joueur : this.lstConnections.values()) {
+                                    for (Joueur donneesJ : this.lstConnections.values())
+                                        joueur.getSortie().println("D:" + donneesJ);
                                 }
-                                if (jAEnlever!=null) {
-                                    System.out.println("Je l'enleve");
-                                    lstConnections.remove(jAEnlever);
-                                    for (Joueur joueur : this.lstConnections.values()) {
-                                        for (Joueur donneesJ : this.lstConnections.values())
-                                            joueur.getSortie().println("D:" + donneesJ);
-                                    }
-                                }
-                                System.out.println(lstConnections);
-                                break;
                             }
                         }
                     });

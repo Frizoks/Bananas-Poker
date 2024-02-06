@@ -225,7 +225,6 @@ public class Combinaison
     private static int carteHautePaire(ArrayList<Carte> ensCartes)
     {
         ArrayList<Integer> valeursCartes = new ArrayList<>();
-        boolean bT = estPaire(ensCartes);
         for (Carte carte : ensCartes)
         {
             if (carte.getValeur() == valeurCarte)
@@ -239,7 +238,7 @@ public class Combinaison
     private static int getAcolyte(ArrayList<Carte> ensCartes)
     {
         ArrayList<Integer> valeursCartes = new ArrayList<>();
-        boolean bT = estPaire(ensCartes);
+
         for (Carte carte : ensCartes)
         {
             if (carte.getValeur() != valeurCarte)
@@ -252,9 +251,8 @@ public class Combinaison
 
     public static ArrayList<Carte> determineCombinaisonJoueur(Joueur j)
     {
-        ArrayList<Carte> combJoueur = new ArrayList<>();
-        //combJoueur.add(Table.getJeuTable());
-        combJoueur.addAll(j.getMainJoueur());
+		//combJoueur.add(Table.getJeuTable());
+		ArrayList<Carte> combJoueur = new ArrayList<>(j.getMainJoueur());
 
         if (estQuinteFlushRoyale(combJoueur))
 
@@ -374,9 +372,9 @@ public class Combinaison
         // brelan (paire 3)
         if ( (estPaire(combJ1) && nbCarteIdentique(valeurCarte) == 3) && !(estPaire(combJ2) && nbCarteIdentique(valeurCarte) == 3) )
             return j1.getNomJoueur();
-        if ( (estPaire(combJ1) && nbCarteIdentique(valeurCarte) == 3) && !(estPaire(combJ2) && nbCarteIdentique(valeurCarte) == 3) )
+        if ( (estPaire(combJ2) && nbCarteIdentique(valeurCarte) == 3) && !(estPaire(combJ1) && nbCarteIdentique(valeurCarte) == 3) )
             return j2.getNomJoueur();
-        if ( (estPaire(combJ1) && nbCarteIdentique(valeurCarte) == 3) && !(estPaire(combJ2) && nbCarteIdentique(valeurCarte) == 3) )
+        if ( (estPaire(combJ1) && nbCarteIdentique(valeurCarte) == 3) &&  (estPaire(combJ2) && nbCarteIdentique(valeurCarte) == 3) )
             return departageCarteHaute(combJ1, combJ2, j1, j2);
 
         // 2 paires (paire 2 + paire 2)
@@ -386,9 +384,9 @@ public class Combinaison
         // 1 paire (paire 2)
         if ( (estPaire(combJ1) && nbCarteIdentique(valeurCarte) == 2) && !(estPaire(combJ2) && nbCarteIdentique(valeurCarte) == 2) )
             return j1.getNomJoueur();
-        if ( (estPaire(combJ1) && nbCarteIdentique(valeurCarte) == 2) && !(estPaire(combJ2) && nbCarteIdentique(valeurCarte) == 2) )
+        if ( (estPaire(combJ2) && nbCarteIdentique(valeurCarte) == 2) && !(estPaire(combJ1) && nbCarteIdentique(valeurCarte) == 2) )
             return j2.getNomJoueur();
-        if ( (estPaire(combJ1) && nbCarteIdentique(valeurCarte) == 2) && !(estPaire(combJ2) && nbCarteIdentique(valeurCarte) == 2) )
+        if ( (estPaire(combJ1) && nbCarteIdentique(valeurCarte) == 2) &&  (estPaire(combJ2) && nbCarteIdentique(valeurCarte) == 2) )
             return departageCarteHaute(combJ1, combJ2, j1, j2);
 
         return departageCarteHaute(combJ1, combJ2, j1, j2);

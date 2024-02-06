@@ -64,6 +64,7 @@ public class Salle {
                                 System.out.println("J'essaie d'enleve");
                                 Joueur jAEnlever = null;
                                 for (Socket soc : this.lstConnections.keySet() ) {
+                                    System.out.println( this.lstConnections.get(soc) + " : " + soc.isInputShutdown());
                                     if ( soc.isInputShutdown() )
                                         jAEnlever = this.lstConnections.get(soc);
                                 }

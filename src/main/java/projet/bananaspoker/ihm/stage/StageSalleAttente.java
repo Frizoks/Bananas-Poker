@@ -66,7 +66,7 @@ public class StageSalleAttente extends Stage implements Initializable {
         Image pathImgHomme = new Image(PokerApplication.class.getResourceAsStream("images/icons/ppHomme.png"));
         Image pathImgFemme = new Image(PokerApplication.class.getResourceAsStream("images/icons/ppFemme.png"));
 
-        for ( Joueur j : salle.getJoueursEnLigne() ) {
+        for ( Joueur j : salle.getJoueurs() ) {
             GridPane grdPaneTemp = new GridPane();
             ImageView imageView = new ImageView((int) (Math.random() * 2) == 1 ? pathImgHomme : pathImgFemme);
 

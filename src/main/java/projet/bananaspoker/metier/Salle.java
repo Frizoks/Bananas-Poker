@@ -128,7 +128,7 @@ public class Salle {
     public int getNbJetonsDep() { return this.nbJetonsDep; }
     public int getNbJoueursTot() { return this.nbJoueursTot; }
 
-    public ArrayList<Joueur> getJoueursEnLigne() { return this.lstJoueurs; }
+    public ArrayList<Joueur> getJoueurs() { return this.lstJoueurs; }
 
     public AutoCloseable getClient() { return this.client; }
 }

@@ -67,15 +67,16 @@ public class Table {
         }
         for(int i = 2; i < joueurs.size(); i++) {mises.add(0);}
 
-        while(!(joueurs.size() <= 1 && allIn.size() == 0))
+        while(joueurs.size() > 1 || !(allIn.size() > 0 && joueurs.size() == 0))
         {
             for (Joueur j : joueurs)
                 System.out.println(j.getNomJoueur() + "--> " + j.getNbJetonsJoueur());
-            while(!touteMiseEgale(mises))
+            int tour = 0;
+            while(!touteMiseEgale(mises) || tour < 4/*salle.getJoueursEnLigne().size()*/)
             {
                 System.out.println("C'est au tour de " + this.joueurs.get(indJoueur).getNomJoueur() + this.joueurs.get(indJoueur).getMainJoueur());
                 System.out.println("Quelles somme voulez vous misez ? (" + this.joueurs.get(indJoueur).getNbJetonsJoueur() + ")");
-                int mise = Integer.parseInt(scanner.nextLine());//0;//this.salle.demanderMise(joueurs.get(indJouer), maxiAl(mises) - mises.get(indJouer));
+                int mise = Integer.parseInt(scanner.nextLine());//this.salle.demanderMise(joueurs.get(indJouer), maxiAl(mises) - mises.get(indJouer));
                 switch(mise)
                 {
                     case -1 : joueurs.remove(indJoueur);
@@ -93,7 +94,8 @@ public class Table {
 
                 }
                 if(mise != -1) {indJoueur++;}
-                indJoueur = indJoueur % joueurs.size();
+                try{indJoueur = indJoueur % joueurs.size();} catch(Exception e) {}
+                tour++;
             }
             if(this.jeuTable.size() < 5) {
                 this.jeuTable.add(this.pioche.remove(0));
@@ -121,13 +123,15 @@ public class Table {
     }
 
     public boolean touteMiseEgale(ArrayList<Integer> mises) {
-        int val = mises.get(0);
+        int val = 0;
+        try{val = mises.get(0);} catch(Exception e){}
         for (Integer i : mises) {if(i != val) {return false;}}
         return true;
     }
 
     public int maxiAl(ArrayList<Integer> mises) {
-        int val = mises.get(0);
+        int val = 0;
+        try{val = mises.get(0);} catch(Exception e){}
         for (Integer i : mises) {if(i > val) {val = i;}}
         return val;
     }

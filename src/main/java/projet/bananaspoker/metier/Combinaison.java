@@ -2,6 +2,8 @@ package projet.bananaspoker.metier;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Combinaison
 {
@@ -32,10 +34,210 @@ public class Combinaison
             }
         }
 
-        if (estCouleur())
-            return "Couleur " + nbCouleur(Combinaison.couleurCarte);
+        if (estCouleur() &&  nbCouleur(Combinaison.couleurCarte) > 5)
+            return "Flush";
 
         return "Carte haute" + carteHaute();
+    }
+
+    public static ArrayList<Carte> setCombinaisonJoueur(Joueur j)
+    {
+        ArrayList<Carte> mainJoueur = new ArrayList<>(j.getMainJoueur());
+        ArrayList<Carte> cartesTable = new ArrayList<>();/*Table.getCartesTable();*/
+        ArrayList<Carte> combinaison = new ArrayList<>(7);
+
+        // Combine la main du joueur et les cartes sur la table
+        combinaison.addAll(mainJoueur);
+        combinaison.addAll(cartesTable);
+
+        // Trie les cartes dans l'ordre décroissant de valeur
+        Collections.sort(combinaison, Collections.reverseOrder());
+
+        // Teste chaque type de combinaison
+        String res = getCombinaison(combinaison);
+        if (res.equals("QuinteFlushRoyale"))
+        {
+            // Quinte flush royale
+            combinaison = enleverDoublons(combinaison);
+            return (ArrayList<Carte>) combinaison.subList(0, 5); // Retourne les 5 premières cartes pour la quinte flush royale
+        }
+
+        else if (res.equals("QuinteFlush"))
+        {
+            combinaison = enleverDoublons(combinaison);
+            ArrayList<Carte> quinteFlush = new ArrayList<>(5);
+            do
+            {
+                estCouleur(Combinaison.couleurCarte);
+            }
+            while (nbCarteIdentique(Combinaison.couleurCarte) < 5);
+
+            for (int i = 0; i < combinaison.size() - 1; i++)
+            {
+                if (combinaison.get(i).getCouleur() == Combinaison.couleurCarte)
+                    quinteFlush.add(combinaison.get(i));
+            }
+
+            return quinteFlush;
+        }
+
+        else if (res.equals("Quinte"))
+        {
+            ArrayList<Carte> quinte = new ArrayList<>(5);
+            combinaison = enleverDoublons(combinaison);
+            for (int i = 0; i < combinaison.size() - 4; i++)
+            {
+                if (combinaison.get(i).getValeur() == combinaison.get(i + 1).getValeur() + 1 &&
+                        combinaison.get(i + 1).getValeur() == combinaison.get(i + 2).getValeur() + 1 &&
+                        combinaison.get(i + 2).getValeur() == combinaison.get(i + 3).getValeur() + 1 &&
+                        combinaison.get(i + 3).getValeur() == combinaison.get(i + 4).getValeur() + 1)
+                {
+                    // Ajoute les cinq cartes de la quinte à la liste
+                    quinte.addAll(combinaison.subList(i, i + 5));
+                    return quinte;
+                }
+            }
+        }
+
+        else if (res.equals("Full"))
+        {
+            ArrayList<Carte> full = new ArrayList<>();
+
+            // Chercher le brelan
+            for (int i = 0; i < combinaison.size() - 2; i++)
+            {
+                if (combinaison.get(i).getValeur() == combinaison.get(i + 1).getValeur() &&
+                        combinaison.get(i).getValeur() == combinaison.get(i + 2).getValeur()) {
+                    full.add(combinaison.remove(i));
+                    full.add(combinaison.remove(i));
+                    full.add(combinaison.remove(i));
+                    break;
+                }
+            }
+
+            // Chercher la paire
+            for (int i = 0; i < combinaison.size() - 1; i++)
+            {
+                if (combinaison.get(i).getValeur() == combinaison.get(i + 1).getValeur()) {
+                    full.add(combinaison.get(i));
+                    full.add(combinaison.get(i + 1));
+                    break;
+                }
+            }
+            return full;
+        }
+
+        else if (res.equals("Carré"))
+        {
+            for (int i = 0; i < combinaison.size() - 3; i++)
+            {
+                if (combinaison.get(i).getValeur() == combinaison.get(i + 1).getValeur() &&
+                        combinaison.get(i).getValeur() == combinaison.get(i + 2).getValeur() &&
+                        combinaison.get(i).getValeur() == combinaison.get(i + 3).getValeur())
+                {
+                    ArrayList<Carte> carre = new ArrayList<>(5);
+                    carre.add(combinaison.remove(i));
+                    carre.add(combinaison.remove(i));
+                    carre.add(combinaison.remove(i));
+                    carre.add(combinaison.remove(i));
+                    // Ajoute la dernière carte après le carré
+                    carre.add(combinaison.get(0));
+                    return carre;
+                }
+            }
+        }
+
+        else if (res.equals("Flush"))
+        {
+            ArrayList<Carte> flush = new ArrayList<>(5);
+            do
+            {
+                estCouleur(Combinaison.couleurCarte);
+            }
+            while (nbCarteIdentique(Combinaison.couleurCarte) < 5);
+
+            for (int i = 0; i < combinaison.size() - 1; i++)
+            {
+                if (combinaison.get(i).getCouleur() == Combinaison.couleurCarte)
+                    flush.add(combinaison.get(i));
+            }
+
+            return flush;
+        }
+
+        else if (res.equals("Brelan"))
+        {
+            for (int i = 0; i < combinaison.size() - 2; i++) {
+                if (combinaison.get(i).getValeur() == combinaison.get(i + 1).getValeur() &&
+                        combinaison.get(i).getValeur() == combinaison.get(i + 2).getValeur())
+                {
+                    ArrayList<Carte> brelan = new ArrayList<>(5);
+                    brelan.add(combinaison.remove(i));
+                    brelan.add(combinaison.remove(i));
+                    brelan.add(combinaison.remove(i));
+                    // Ajoute les deux dernières cartes après le brelan
+                    brelan.addAll(combinaison.subList(0, 2));
+                    return brelan;
+                }
+            }
+        }
+        else if (res.equals("DoublePaire"))
+        {
+            int nbPaires = 0;
+            ArrayList<Carte> doublePaire = new ArrayList<>(5);
+
+            for (int i = 0; i < combinaison.size() - 1; i++) {
+                if (combinaison.get(i).getValeur() == combinaison.get(i + 1).getValeur()) {
+                    doublePaire.add(combinaison.remove(i));
+                    doublePaire.add(combinaison.remove(i));
+                    nbPaires++;
+                    i++;
+
+                    if (nbPaires == 2) {
+                        // Ajoute la dernière carte restante après les deux paires
+                        doublePaire.add(combinaison.get(0));
+                        return doublePaire;
+                    }
+                }
+            }
+        }
+        else if (res.equals("Paire"))
+        {
+            for (int i = 0; i < combinaison.size() - 1; i++)
+            {
+                if (combinaison.get(i).getValeur() == combinaison.get(i + 1).getValeur())
+                {
+                    ArrayList<Carte> paire = new ArrayList<>(5);
+                    paire.add(combinaison.remove(i));
+                    paire.add(combinaison.remove(i));
+                    // Ajoute les trois dernières cartes après la paire détectée
+                    paire.addAll(combinaison.subList(0, 5 - paire.size()));
+                    return paire;
+                }
+            }
+        }
+
+        return (ArrayList<Carte>) combinaison.subList(0, 5); // Retourne les 5 premières cartes pour la carte haute
+    }
+
+    public static ArrayList<Carte> enleverDoublons(ArrayList<Carte> cartes)
+    {
+        Set<Integer> valeursUniques = new HashSet<>();
+        ArrayList<Carte> cartesSansDoublons = new ArrayList<>();
+
+        for (Carte carte : cartes)
+        {
+            if (valeursUniques.add(carte.getValeur()))
+            {
+                if (estCouleur(cartes) && nbCarteIdentique(couleurCarte) >= 5)
+                    if (carte.getCouleur() != couleurCarte)
+                        System.out.print("");
+
+                cartesSansDoublons.add(carte);
+            }
+        }
+
+        return cartesSansDoublons;
     }
 
     private static boolean estQuinteFlushRoyale()
@@ -199,9 +401,9 @@ public class Combinaison
             }
 
             if (res != val)
-                return 5;
+                return 5;  //full -> nbCarteIdentique Paire1 != nbCarteIdentique Paire2
             else
-                return 6;
+                return 6;  //double paire
         }
 
         return res;
@@ -233,35 +435,6 @@ public class Combinaison
         Collections.sort(valeursCartes);
 
         return valeursCartes.get(valeursCartes.size() - 1);
-    }
-
-    private static int getAcolyte(ArrayList<Carte> ensCartes)
-    {
-        ArrayList<Integer> valeursCartes = new ArrayList<>();
-
-        for (Carte carte : ensCartes)
-        {
-            if (carte.getValeur() != valeurCarte)
-                valeursCartes.add(carte.getValeur());
-        }
-        Collections.sort(valeursCartes);
-
-        return valeursCartes.get(valeursCartes.size() - 1);
-    }
-
-    public static ArrayList<Carte> determineCombinaisonJoueur(Joueur j)
-    {
-		//combJoueur.add(Table.getJeuTable());
-		ArrayList<Carte> combJoueur = new ArrayList<>(j.getMainJoueur());
-
-        if (estQuinteFlushRoyale(combJoueur))
-
-            if (estQuinte(combJoueur))
-            {
-                return null; /* A changer */
-            }
-
-        return combJoueur;
     }
 
     public static Joueur quiGagne (ArrayList<Joueur> lstJoueur)
@@ -428,12 +601,8 @@ public class Combinaison
         else if (carteHautePaire(combJ2) > carteHautePaire(combJ1))
             return j2.getNomJoueur();
             // "Si les deux joueurs ont le même carré, le pot est remis à celui qui a la cinquième carte la plus haute, appelée aussi acolyte"
-        else if (getAcolyte(combJ1) > getAcolyte(combJ2))
-            return j1.getNomJoueur();
-        else if (getAcolyte(combJ2) > getAcolyte(combJ1))
-            return j2.getNomJoueur();
         else
-            return "Egalité";
+            return departageCarteHaute(combJ1, combJ2, j1, j2);
     }
 
     private static String departageDoublePaire(ArrayList<Carte> combJ1, ArrayList<Carte> combJ2, Joueur j1, Joueur j2)

@@ -41,6 +41,25 @@ public class Carte implements Comparable {
 		return jeu;
 	}
 
+	public static String getImageCarte (Carte aTrouver){
+
+		String[] ensNomsValeurs = {"A", "2", "3", "4", "5", "6", "7", "8", "9", "10", "J", "Q", "K"};
+
+		if (aTrouver == null) return "Carte inexistante";
+
+		char coul = ' ';
+		switch (aTrouver.getCouleur()){
+			case Carte.CARREAU -> coul = 'd';
+			case Carte.PIQUE   -> coul = 's';
+			case Carte.COEUR   -> coul = 'h';
+			case Carte.TREFLE  -> coul = 'c';
+			default ->  coul = 'p'; //probleme
+		}
+		if (coul == 'p' || coul == ' ') return "probleme de couleur";
+
+		return "@../images/cartes/" + ensNomsValeurs[aTrouver.getValeur()] + coul + ".gif" ;
+	}
+
 	public char getCouleur() {
 		return couleur;
 	}

@@ -4,15 +4,15 @@ package projet.bananaspoker.metier;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Carte implements Comparable{
+public class Carte implements Comparable {
 
-	public final static char COEUR   = '♥';
+	public final static char COEUR = '♥';
 	public final static char CARREAU = '♦';
-	public final static char TREFLE  = '♣';
-	public final static char PIQUE   = '♠';
+	public final static char TREFLE = '♣';
+	public final static char PIQUE = '♠';
 
-	private char   couleur;
-	private int    valeur;
+	private char couleur;
+	private int valeur;
 	private String nom;
 
 	public Carte(char couleur, int valeur, String nom) {
@@ -21,22 +21,19 @@ public class Carte implements Comparable{
 		this.nom = nom;
 	}
 
-	public static ArrayList<Carte> genererJeu()
-	{
+	public static ArrayList<Carte> genererJeu() {
 		ArrayList<Carte> jeu = new ArrayList<Carte>();
-		int[] ensValeurs = {1,2,3,4,5,6,7,8,9,10,11,12,13};
-		String[] ensNomsValeurs = {"As","2","3","4","5","6","7","8","9","10","Valet","Dame","Roi"};
-		char[] ensCouleurs = {COEUR,CARREAU,TREFLE,PIQUE};
-		String[] ensNomsCouleurs = {"coeur","carreau","trefle","pique"};
+		int[] ensValeurs = {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
+		String[] ensNomsValeurs = {"As", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Valet", "Dame", "Roi"};
+		char[] ensCouleurs = {COEUR, CARREAU, TREFLE, PIQUE};
+		String[] ensNomsCouleurs = {"coeur", "carreau", "trefle", "pique"};
 
 
-		for (int cptCouleur = 0; cptCouleur < 4; cptCouleur++)
-		{
-			for (int cptValeur = 0; cptValeur < 13; cptValeur++)
-			{
-				int    val  = ensValeurs[cptValeur];
-				char   coul = ensCouleurs[cptCouleur];
-				String nom  = ensNomsValeurs[cptValeur] + " de " + ensNomsCouleurs[cptCouleur];
+		for (int cptCouleur = 0; cptCouleur < 4; cptCouleur++) {
+			for (int cptValeur = 0; cptValeur < 13; cptValeur++) {
+				int val = ensValeurs[cptValeur];
+				char coul = ensCouleurs[cptCouleur];
+				String nom = ensNomsValeurs[cptValeur] + " de " + ensNomsCouleurs[cptCouleur];
 				jeu.add(new Carte(coul, val, nom));
 			}
 		}
@@ -68,10 +65,9 @@ public class Carte implements Comparable{
 		this.nom = nom;
 	}
 
-	public int getPointCarte()
-	{
-		int[] ensPoints = {14,2,3,4,5,6,7,8,9,10,11,12,13};
-		return ensPoints[this.getValeur()-1];
+	public int getPointCarte() {
+		int[] ensPoints = {14, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
+		return ensPoints[this.getValeur() - 1];
 	}
 
 	public boolean equals(Object object) {
@@ -88,8 +84,8 @@ public class Carte implements Comparable{
 
 	@Override
 	public int compareTo(Object o) {
-		int[] ensPoints = {14,2,3,4,5,6,7,8,9,10,11,12,13};
+		int[] ensPoints = {14, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13};
 		Carte autreCarte = (Carte) o;
-		return ensPoints[this.valeur-1] - ensPoints[autreCarte.getValeur()-1];
+		return ensPoints[this.valeur - 1] - ensPoints[autreCarte.getValeur() - 1];
 	}
 }

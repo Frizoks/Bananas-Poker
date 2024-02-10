@@ -29,9 +29,11 @@ public class Table {
 	}
 
 	public void jouer() {
+		
 		int decalage = Table.nbManches % joueurs.size();
 		decalage(joueurs, decalage);
 
+		
 		for (Joueur j : joueurs) {
 			j.addCarteMainJoueur(this.pioche.remove(0));
 		}
@@ -42,14 +44,20 @@ public class Table {
 		//this.salle.afficherCarteJoueurs();
 		int indJoueur = 2;
 
-		//debut de la manche et repartition des blindes
-		ArrayList<Integer> mises = new ArrayList<Integer>();
+		/***********************************************/
+		/*debut de la manche et repartition des blindes*/
+		/***********************************************/
+		
+		ArrayList<Integer> mises      = new ArrayList<Integer>();
 		ArrayList<Integer> misesAllIn = new ArrayList<Integer>();
+		
 		mises.add(this.blinde);
+		//si le joueur n'as pas assez pour la petite blinde
 		if (this.joueurs.get(0).enleverJetons(this.blinde) <= 0) {
 			misesAllIn.add(mises.remove(0));
 			allIn.add(joueurs.remove(0));
 
+			//si l'autre joueur n'as pas assez pour la grande blinde
 			indJoueur = 1;
 			mises.add(this.blinde * 2);
 			if (this.joueurs.get(1).enleverJetons(this.blinde * 2) <= 0) {
@@ -58,6 +66,7 @@ public class Table {
 				indJoueur = 0;
 			}
 		} else {
+			//si l'autre joueur n'as pas assez pour la grande blinde
 			mises.add(this.blinde * 2);
 			if (this.joueurs.get(1).enleverJetons(this.blinde * 2) <= 0) {
 				misesAllIn.add(mises.remove(1));
@@ -65,35 +74,47 @@ public class Table {
 				indJoueur = 1;
 			}
 		}
+
+		//init l'array list des mises
 		for (int i = 2; i < joueurs.size(); i++) {
 			mises.add(0);
 		}
 
+		/****************/
+		/* phase de jeu */
+		/****************/
+		// tant qu'il y a des joueurs
 		while (!(joueurs.size() <= 1 && allIn.size() == 0)) {
+			// tant que tout le monde n'a pas misé
 			while (!touteMiseEgale(mises)) {
 				int mise = 0;//this.salle.demanderMise(joueurs.get(indJouer), maxiAl(mises) - mises.get(indJouer));
 				switch (mise) {
-					case -1:
+					case -1: // se coucher
 						joueurs.remove(indJoueur);
 						mises.remove(indJoueur);
 						break;
-					case 0:
+					case 0: // suivre
 						break;
-					default:
+					default: // miser
+						// allin
 						if (joueurs.get(indJoueur).enleverJetons(mise) == 0) {
 							mises.set(indJoueur, mises.get(indJoueur) + mise);
 							allIn.add(joueurs.remove(indJoueur));
 							misesAllIn.add(mises.remove(indJoueur));
-						} else {
+						} 
+						// mise
+						else {
 							mises.set(indJoueur, mises.get(indJoueur) + mise);
 						}
 
 				}
+				//definition du prochain joueur
 				if (mise != -1) {
 					indJoueur++;
 				}
 				indJoueur = indJoueur % joueurs.size();
 			}
+			//si toutes les cartes ne sont pas révelés et que tout le monde a mise
 			if (this.jeuTable.size() < 5) {
 				this.jeuTable.add(this.pioche.remove(0));
 				//this.salle.afficherCarteJeu(this.jeuTable.get(this.jeuTable.size() - 1));
@@ -101,20 +122,30 @@ public class Table {
 				break;
 			}
 		}
+
+		/******************/
+		/*fin de la manche*/
+		/******************/
+		//on a fini les tours de mise
 		if (joueurs.size() == 1 && allIn.size() == 0) {
 			joueurs.get(0).ajouterJetons(totalAl(mises));
 		} else {
+			// si il en reste plusieurs, on regarde les combinaisons
 			ArrayList<Joueur> verifCombi = (ArrayList<Joueur>) joueurs.clone();
 			for (Joueur j : allIn) {
 				verifCombi.add(j);
 			}
 			Joueur j = Combinaison.quiGagne(verifCombi);
+			
+			//cas des allin ou on redistribue le surplus
 			if (allIn.contains(j)) {
 				j.ajouterJetons(misesAllIn.get(allIn.indexOf(j)) * this.joueurs.size());
 				for (Joueur joueur : joueurs) {
 					joueur.ajouterJetons(mises.get(joueurs.indexOf(joueur)) - misesAllIn.get(allIn.indexOf(j)));
 				}
-			} else {
+			} 
+			// cas normal
+			else {
 				j.ajouterJetons(totalAl(mises));
 			}
 		}

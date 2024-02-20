@@ -1,9 +1,6 @@
 package projet.bananaspoker.metier;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 public class Combinaison {
 	private static ArrayList<Carte> main;
@@ -370,7 +367,8 @@ public class Combinaison {
 		return valeursCartes.get(valeursCartes.size() - 1);
 	}
 
-	public static Joueur quiGagne(ArrayList<Joueur> lstJoueur) {
+	public static ArrayList<Joueur> quiGagne(ArrayList<Joueur> lstJoueur) {
+		ArrayList<Joueur> lstRes = new ArrayList<>();
 		ArrayList<Carte> pireCombinaisonPoker = new ArrayList<>();
 		pireCombinaisonPoker.add(new Carte('♥', 2, "2 de coeur"));
 		pireCombinaisonPoker.add(new Carte('♦', 3, "3 de carreau"));
@@ -384,12 +382,18 @@ public class Combinaison {
 		for (int cpt = 0; cpt < lstJoueur.size(); cpt++) {
 			String res = departageJoueurs(gagnant, lstJoueur.get(cpt));
 
-			if (res.equals(lstJoueur.get(cpt).getNomJoueur()))
+			if (res.equals(lstJoueur.get(cpt).getNomJoueur())) {
+				lstRes.remove(gagnant);
 				gagnant = lstJoueur.get(cpt);
+				lstRes.add(gagnant);
+			}
+			if (res.equals("Egalite")) {
+				if (!gagnant.getNomJoueur().equals("@#~¹[{#ħn€ßł¢æ"))
+					lstRes.add(gagnant);
+				lstRes.add(lstJoueur.get(cpt));
+			}
 		}
-		if (gagnant.getNomJoueur().equals("@#~¹[{#ħn€ßł¢æ"))
-			return null;
-		return gagnant;
+		return lstRes;
 	}
 
 	private static String departageJoueurs(Joueur j1, Joueur j2) {

@@ -383,10 +383,11 @@ public class Combinaison {
 			String res = departageJoueurs(gagnant, lstJoueur.get(cpt));
 
 			if (res.equals(lstJoueur.get(cpt).getNomJoueur())) {
-				lstRes.remove(gagnant);
+				lstRes.clear();
 				gagnant = lstJoueur.get(cpt);
 				lstRes.add(gagnant);
 			}
+
 			if (res.equals("Egalite")) {
 				if (!gagnant.getNomJoueur().equals("@#~¹[{#ħn€ßł¢æ"))
 					lstRes.add(gagnant);

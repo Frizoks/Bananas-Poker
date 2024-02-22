@@ -86,7 +86,8 @@ public class Table {
 		// tant qu'il y a des joueurs
 		while (!(joueurs.size() <= 1 && allIn.size() == 0)) {
 			// tant que tout le monde n'a pas misé
-			while (!touteMiseEgale(mises)) {
+			int tour = 0;
+			while (!touteMiseEgale(mises) && tour < salle.getJoueursEnLigne().size()) {
 				int mise = 0;//this.salle.demanderMise(joueurs.get(indJouer), maxiAl(mises) - mises.get(indJouer));
 				switch (mise) {
 					case -1: // se coucher
@@ -113,6 +114,7 @@ public class Table {
 					indJoueur++;
 				}
 				indJoueur = indJoueur % joueurs.size();
+				tour++;
 			}
 			//si toutes les cartes ne sont pas révelés et que tout le monde a mise
 			if (this.jeuTable.size() < 5) {
@@ -129,24 +131,36 @@ public class Table {
 		//on a fini les tours de mise
 		if (joueurs.size() == 1 && allIn.size() == 0) {
 			joueurs.get(0).ajouterJetons(totalAl(mises));
-		} else {
+		}
+		else if (joueurs.size() == 0 && allIn.size() == 1) {
+			allIn.get(0).ajouterJetons(totalAl(mises));
+		}
+		else {
 			// si il en reste plusieurs, on regarde les combinaisons
 			ArrayList<Joueur> verifCombi = (ArrayList<Joueur>) joueurs.clone();
 			for (Joueur j : allIn) {
 				verifCombi.add(j);
 			}
-			Joueur j = Combinaison.quiGagne(verifCombi);
-			
-			//cas des allin ou on redistribue le surplus
-			if (allIn.contains(j)) {
-				j.ajouterJetons(misesAllIn.get(allIn.indexOf(j)) * this.joueurs.size());
-				for (Joueur joueur : joueurs) {
-					joueur.ajouterJetons(mises.get(joueurs.indexOf(joueur)) - misesAllIn.get(allIn.indexOf(j)));
+			ArrayList<Joueur> joueursGagnant = Combinaison.quiGagne(verifCombi);
+
+			if(joueursGagnant.size() == 1) {
+				Joueur j = joueursGagnant.get(1);
+				//cas des allin ou on redistribue le surplus
+				if (allIn.contains(j)) {
+					j.ajouterJetons(misesAllIn.get(allIn.indexOf(j)) * this.joueurs.size());
+					for (Joueur joueur : joueurs) {
+						joueur.ajouterJetons(mises.get(joueurs.indexOf(joueur)) - misesAllIn.get(allIn.indexOf(j)));
+					}
 				}
-			} 
-			// cas normal
+				// cas normal
+				else {
+					j.ajouterJetons(totalAl(mises));
+				}
+			}
 			else {
-				j.ajouterJetons(totalAl(mises));
+				for (Joueur j : joueursGagnant) {
+					j.ajouterJetons(totalAl(mises) / joueursGagnant.size());
+				}
 			}
 		}
 	}

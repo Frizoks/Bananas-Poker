@@ -1,20 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-
-<Pane maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1">
+<Pane minHeight="-Infinity" minWidth="-Infinity" prefHeight="1080.0" prefWidth="1920.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projet.bananaspoker.ihm.stage.StageTable">
    <children>
-      <ImageView fitHeight="1088.0" fitWidth="1931.0" layoutX="-5.0" layoutY="-3.0" pickOnBounds="true">
-         <image>
-            <Image url="@../images/fondTable.png" />
-         </image>
-      </ImageView>
-      <ImageView fitHeight="598.0" fitWidth="1503.0" layoutX="209.0" layoutY="246.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../images/Table.png" />
-         </image>
-      </ImageView>
+       <ImageView fx:id="img" fitHeight="1080.0" fitWidth="1920.0" layoutX="-5.0" layoutY="-3.0" pickOnBounds="true">
+           <image>
+               <Image url="@../images/fondTable.png" />
+           </image>
+       </ImageView>
+
+       <ImageView fitHeight="450.0" fitWidth="1100.0" layoutX="410.0" layoutY="265.0" pickOnBounds="true">
+           <image>
+               <Image url="@../images/Table.png" />
+           </image>
+       </ImageView>
+
+      <ImageView fx:id="img1" fitHeight="192.0" fitWidth="128.0" layoutX="620.0" layoutY="394.0" pickOnBounds="true" preserveRatio="true" />
+       <ImageView fx:id="img2" fitHeight="192.0" fitWidth="128.0" layoutX="758.0" layoutY="394.0" pickOnBounds="true" preserveRatio="true" />
+       <ImageView fx:id="img3" fitHeight="192.0" fitWidth="128.0" layoutX="896.0" layoutY="394.0" pickOnBounds="true" preserveRatio="true" />
+       <ImageView fx:id="img4" fitHeight="192.0" fitWidth="128.0" layoutX="1034.0" layoutY="394.0" pickOnBounds="true" preserveRatio="true" />
+       <ImageView fx:id="img5" fitHeight="192.0" fitWidth="128.0" layoutX="1172.0" layoutY="394.0" pickOnBounds="true" preserveRatio="true" />
+
+       <ImageView fx:id="main1" fitHeight="192.0" fitWidth="128.0" layoutX="827.0" layoutY="730.0" pickOnBounds="true" preserveRatio="true" />
+       <ImageView fx:id="main2" fitHeight="192.0" fitWidth="128.0" layoutX="965.0" layoutY="730.0" pickOnBounds="true" preserveRatio="true" />
+
+       <ImageView fx:id="jeton" fitHeight="90.0" fitWidth="160.0" layoutX="1100.0" layoutY="750.0" pickOnBounds="true" preserveRatio="true" />
+        <Label fx:id="lblJetons" prefHeight="90.0" prefWidth="160.0" layoutX="1160.0" layoutY="830.0" wrapText="true" />
+
+      <Button fx:id="coucher" mnemonicParsing="false" text="coucher" prefHeight="50.0" prefWidth="80.0" layoutX="1460.0" layoutY="870.0"/>
+       <Button fx:id="suivre" mnemonicParsing="false" text="suivre" prefHeight="50.0" prefWidth="80.0" layoutX="1550.0" layoutY="870.0"/>
+       <Button fx:id="miser" mnemonicParsing="false" text="miser" prefHeight="50.0" prefWidth="80.0" layoutX="1640.0" layoutY="870.0"/>
    </children>
 </Pane>
